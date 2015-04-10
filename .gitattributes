@@ -1,0 +1,3 @@
+*.sh		eol=lf
+updater-script    eol=lf
+*.prop    eol=lf
