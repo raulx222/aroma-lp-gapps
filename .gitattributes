@@ -1,3 +1,4 @@
 *.sh		eol=lf
-updater-script    eol=lf
 *.prop    eol=lf
+updater-script    eol=lf
+aroma-config    eol=lf
