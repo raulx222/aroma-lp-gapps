@@ -48,26 +48,12 @@ menubox (
 	"menu.prop",
 	
 	"<b>Installation</b>", "Continue to install GApps", "@install",
-	"<b>ChangeLog</b>", "Package changelog", "@update",
 	"<b>Exit</b>", "Exit", "@default"
 );
 
 
-
-#Changelog
-if prop("menu.prop", "selected")=="2" then
-	textdialog(
-		"LP-GAPPS Changelog",
-		resread("changelog.txt"),
-		"Close"
-	);
-
-	back("1");
-endif;
-
-
 #Exit
-if prop("menu.prop", "selected")=="3" then
+if prop("menu.prop", "selected")=="2" then
 	if
 		confirm(
 			"Exit",

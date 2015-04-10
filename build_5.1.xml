@@ -253,16 +253,13 @@
       <entry  key="fullfilename" value="${file.name.aroma}"/>
     </propertyfile>
     <!-- copy files -->
-	<antcall target="values" />
     <copy todir="${work.dir}">
 	     <fileset dir="${structure.dir}">
          <exclude name="META-INF/com/google/android/**"/>
          </fileset>
     </copy>
     <copy todir="${work.dir}"><fileset dir="${app.dir}/extras/aroma" /></copy>
-	
-	<!-- copy changelog --> 
-	<copy file="${app.dir}/extras/aroma-changelog/changelog_5.1.txt"  tofile="${work.dir}/META-INF/com/google/android/aroma/changelog.txt"/>
+	<antcall target="values" />
 
     <!-- generate backup script --> 
     <fileset id="item.file" dir="${work.dir}/system" includes="**/*.*" />
@@ -297,7 +294,7 @@
 	    import java.text.SimpleDateFormat
 		
 		def sdf = new SimpleDateFormat("MMMM, dd yyyy")
-        new File("extras/aroma/values.prop").withWriter { w ->
+        new File("work/values.prop").withWriter { w ->
 		w.println "android_ver=5.1.x"
         w.println "build_date=${sdf.format(new Date())}"
 		

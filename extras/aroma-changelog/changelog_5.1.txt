@@ -1,2 +1,0 @@
-<b><#scrollbar>[AROMA]LP-GAPPS-5.1 - April, 10 2015</#></b>
-<*>Initial release</*>

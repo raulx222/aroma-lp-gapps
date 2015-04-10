@@ -308,8 +308,77 @@ else
 	package_extract_file("system/addon.d/80-gapps.sh", "/system/addon.d/80-gapps.sh");
 endif;
 set_perm(0, 0, 0755, "/system/addon.d/80-gapps.sh");
-#----------------------
 
+
+#----------Protection script
+#Check if "Install all" is selected. If not, execute the protection script.
+if
+	file_getprop("/tmp/aroma/gapps.prop", "item.2.1") == "0"
+then
+	ui_print("-> Execute protection script...");
+	package_extract_file("protection.sh", "/tmp/protection.sh");
+	set_perm(0, 0, 0777, "/tmp/protection.sh");
+	run_program("/tmp/protection.sh", "");
+
+#Check if at least one app from a certain type is installed. If not, force install the Google app counterpart.
+if
+	file_getprop("/tmp/aroma/gapps.prop", "item.1.2") == "0"
+then
+	if
+		file_getprop("/tmp/protection.prop", "browser") == "0"
+	then
+		ui_print("	-> Force install: Chrome");
+		package_extract_dir("system/app/Chrome", "/system/app/Chrome");
+	endif;
+endif;
+
+if
+	file_getprop("/tmp/aroma/gapps.prop", "item.1.7") == "0"
+then
+	if
+		file_getprop("/tmp/protection.prop", "mms") == "0"
+	then
+		ui_print("	-> Force install: Messenger");
+		package_extract_dir("system/app/Messenger", "/system/app/Messenger");
+	endif;
+endif;
+
+if
+	file_getprop("/tmp/aroma/gapps.prop", "item.1.10") == "0"
+then
+	if
+		file_getprop("/tmp/protection.prop", "picotts") == "0"
+	then
+		ui_print("	-> Force install: GoogleTTS");
+		package_extract_dir("system/app/GoogleTTS", "/system/app/GoogleTTS");
+		package_extract_dir("system/tts", "/system/tts");
+	endif;
+endif;
+
+if
+	file_getprop("/tmp/aroma/gapps.prop", "item.1.14") == "0"
+then
+	if
+		file_getprop("/tmp/protection.prop", "calendar") == "0"
+	then
+		ui_print("	-> Force install: Google Calendar");
+		package_extract_dir("system/app/CalendarGoogle", "/system/app/CalendarGoogle");
+	endif;
+endif;
+
+if
+	file_getprop("/tmp/aroma/gapps.prop", "item.1.11") == "0"
+then
+	if
+		file_getprop("/tmp/protection.prop", "latinime") == "0"
+	then
+		ui_print("	-> Force install: Google Keyboard");
+		package_extract_dir("system/app/Keyboard", "/system/app/Keyboard");
+		package_extract_dir("system/usr/srec/en-US", "/system/usr/srec/en-US");
+	endif;
+endif;
+delete("/tmp/protection.sh", "/tmp/protection.prop");
+endif;
 
 set_progress(0.9);
 ui_print("-> Cleaning up and setting metadata...");
