@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE project>
+<!--=========================================================================-->
+<!-- Original authors:                                                                       -->
+<!--    tortureduck: Manfred Hofbauer                                        -->
+<!--    dankoman   : Daniel Koman                                            -->
+<!--=========================================================================-->
+<!--                                                                         -->
+<!--  PROJECT:  buildGapps                                                   -->
+<!--                                                                         -->
+<!--  FILE:     build.xml                                                    -->
+<!--                                                                         -->
+<!--  DESCRIPTION:                                                           -->
+<!--                                                                         -->
+<!--    builds the gapps                                                     -->
+<!--                                                                         -->
+<!--  AUTHOR: raulx222                                                              -->
+<!--                                                                         -->
+<!--=========================================================================-->
+
+<project name="buildGapps"
+         default="buildAll"
+         basedir=".">
+  <property file="build.properties"/>
+  <description>
+    This file list used by ant to build the Slim Gapps project
+  </description>
+
+  <!--=======================================================================-->
+  <!-- some variables                                                        -->
+  <!--=======================================================================-->
+  <property name="app.name"                     value="buildGapps"/>
+  <property name="app.dir"                      value="${basedir}"/>
+  <property name="work.dir"                     value="${app.dir}/work"/>
+  <property name="build.dir"                    value="${app.dir}/build"/>
+  <property name="structure.dir"                value="${app.dir}/structure"/>
+  <property name="sign.jar"                     value="${app.dir}/tools/signapk.jar"/>
+  <property name="sign.pem"                     value="${app.dir}/tools/testkey.x509.pem"/>
+  <property name="sign.pk8"                     value="${app.dir}/tools/testkey.pk8"/>
+  
+  <tstamp>  
+    <format property="build.today" pattern="yyyyMMdd" />
+  </tstamp>  
+    
+  <!--=======================================================================-->
+  <!-- complete build                                                        -->
+  <!--=======================================================================-->
+  <target name="buildAll"
+        depends="cleanupBefore,initit,buildAroma,cleanupAfter"
+        description="execute complete build"/>
+  
+  
+  <!--=======================================================================-->
+  <!-- zero                                                                  -->
+  <!--=======================================================================-->
+  <target name="buildZero"
+          description="execute zero gapps build">
+    <!-- preparations -->
+    <property environment="env"/>
+    <property name="file.name.zero" value="${build.dir}/Slim_zero_gapps.BETA.${PRODUCT_VERSION_MAJOR}.${PRODUCT_VERSION_MINOR}.${PRODUCT_VERSION_MAINTENANCE}-${build.today}.zip"/>
+    <delete dir="${work.dir}"/>
+    <propertyfile file="${build.dir}/gapps.filenames">
+      <entry  key="zerofilename" value="${file.name.zero}"/>
+    </propertyfile>
+    <!-- copy files -->
+    <copy todir="${work.dir}">
+        <fileset dir="${structure.dir}">
+          <include name="META-INF/**" />
+          <include name="system/app/ConfigUpdater/**" />
+		  <include name="system/app/ExchangeServices/**" />
+		  <include name="system/app/GoogleCalendarSyncAdapter/**" />
+		  <include name="system/app/GoogleContactsSyncAdapter/**" />
+		  <include name="system/etc/**" />
+		  <include name="system/framework/**" />
+		  <include name="system/lib/**" />
+		  <include name="system/priv-app/GoogleBackupTransport/**" />
+		  <include name="system/priv-app/GoogleFeedback/**" />
+		  <include name="system/priv-app/GoogleLoginService/**" />
+		  <include name="system/priv-app/GoogleOneTimeInitializer/**" />
+		  <include name="system/priv-app/GooglePartnerSetup/**" />
+		  <include name="system/priv-app/GoogleServicesFramework/**" />
+		  <include name="system/priv-app/Phonesky/**" />
+		  <include name="system/priv-app/PrebuiltGmsCore/**" />
+		  <include name="system/priv-app/SetupWizard/**" />
+        </fileset>
+    </copy>
+    <copy file="${app.dir}/extras/zero/updater-script"  todir="${work.dir}/META-INF/com/google/android"/>
+
+    <!-- generate backup script --> 
+    <fileset id="item.file" dir="${work.dir}/system" includes="**/*.*" />
+    <pathconvert refid="item.file" property="file.list.zero" pathsep="&#10;" dirsep="/">
+        <map from="${work.dir}/system/" to=''/>
+    </pathconvert>
+    <copy file="${app.dir}/extras/zero/80-gapps.sh" todir="${work.dir}/system/addon.d">
+        <filterchain>
+          <replaceregex pattern="@file.list@" replace="${file.list.zero}" flags="i"/>
+        </filterchain>
+    </copy>
+
+    <!-- zip and sign it --> 
+    <antcall target="ZipAndSigning">
+        <param name="hfile.name" value="${file.name.zero}"/>
+    </antcall>
+
+  </target>
+
+  <!--=======================================================================-->
+  <!-- mini                                                                  -->
+  <!--=======================================================================-->
+  <target name="buildMini"
+          description="execute mini gapps build">
+    <!-- preparations -->
+    <property environment="env"/>
+    <property name="file.name.mini" value="${build.dir}/Slim_mini_gapps.BETA.${PRODUCT_VERSION_MAJOR}.${PRODUCT_VERSION_MINOR}.${PRODUCT_VERSION_MAINTENANCE}-${build.today}.zip"/>
+    <delete dir="${work.dir}"/>
+    <propertyfile file="${build.dir}/gapps.filenames">
+      <entry  key="minifilename" value="${file.name.mini}"/>
+    </propertyfile>
+    <!-- copy files -->
+    <copy todir="${work.dir}">
+        <fileset dir="${structure.dir}">
+          <exclude name="system/app/CalendarGoogle/**"/>
+          <exclude name="system/app/Chrome/**"/>
+          <exclude name="system/app/Drive/**"/>
+          <exclude name="system/app/GenieWidget/**"/>
+          <exclude name="system/app/GoogleHome/**"/>
+          <exclude name="system/app/GoogleTTS/**"/>
+          <exclude name="system/app/Keep/**"/>
+          <exclude name="system/app/Keyboard/**"/>
+          <exclude name="system/app/Maps/**"/>
+          <exclude name="system/app/Messenger/**"/>
+          <exclude name="system/app/Music2/**"/>
+          <exclude name="system/app/PlusOne/**"/>
+          <exclude name="system/app/Street/**"/>
+          <exclude name="system/app/Translate/**"/>
+          <exclude name="system/app/Wallet/**"/>
+          <exclude name="system/app/YouTube/**"/>
+          <exclude name="system/priv-app/Velvet/**"/>
+          <exclude name="system/tts/**"/>
+          <exclude name="system/usr/**"/>
+          <exclude name="optional/face/**"/>
+        </fileset>
+    </copy>
+    <copy file="${app.dir}/extras/mini/updater-script"  todir="${work.dir}/META-INF/com/google/android"/>
+
+    <!-- generate backup script --> 
+    <fileset id="item.file" dir="${work.dir}/system" includes="**/*.*" />
+    <pathconvert refid="item.file" property="file.list.mini" pathsep="&#10;" dirsep="/">
+        <map from="${work.dir}/system/" to=''/>
+    </pathconvert>
+    <copy file="${app.dir}/extras/80-gapps.sh" todir="${work.dir}/system/addon.d">
+        <filterchain>
+          <replaceregex pattern="@file.list@" replace="${file.list.mini}" flags="i"/>
+        </filterchain>
+    </copy>
+
+    <!-- zip and sign it --> 
+    <antcall target="ZipAndSigning">
+        <param name="hfile.name" value="${file.name.mini}"/>
+    </antcall>
+
+  </target>
+
+  <!--=======================================================================-->
+  <!-- normal                                                                -->
+  <!--=======================================================================-->
+  <target name="buildNormal"
+          description="execute normal gapps build">
+    <!-- preparations -->
+    <property environment="env"/>
+    <property name="file.name.normal" value="${build.dir}/Slim_normal_gapps.BETA.${PRODUCT_VERSION_MAJOR}.${PRODUCT_VERSION_MINOR}.${PRODUCT_VERSION_MAINTENANCE}-${build.today}.zip"/>
+    <delete dir="${work.dir}"/>
+    <propertyfile file="${build.dir}/gapps.filenames">
+      <entry  key="normalfilename" value="${file.name.normal}"/>
+    </propertyfile>
+    <!-- copy files -->
+    <copy todir="${work.dir}">
+      <fileset dir="${structure.dir}">
+          <exclude name="system/app/CalendarGoogle/**"/>
+          <exclude name="system/app/Chrome/**"/>
+          <exclude name="system/app/Drive/**"/>
+          <exclude name="system/app/Keep/**"/>
+          <exclude name="system/app/Maps/**"/>
+          <exclude name="system/app/Messenger/**"/>
+          <exclude name="system/app/PlusOne/**"/>
+          <exclude name="system/app/Street/**"/>
+          <exclude name="system/app/Translate/**"/>
+          <exclude name="system/app/Wallet/**"/>
+      </fileset>
+    </copy>
+    <copy file="${app.dir}/extras/normal/updater-script"  todir="${work.dir}/META-INF/com/google/android"/>
+
+    <!-- generate backup script --> 
+    <fileset id="item.file" dir="${work.dir}/system" includes="**/*.*" />
+    <pathconvert refid="item.file" property="file.list.normal" pathsep="&#10;" dirsep="/">
+        <map from="${work.dir}/system/" to=''/>
+    </pathconvert>
+    <copy file="${app.dir}/extras/80-gapps.sh" todir="${work.dir}/system/addon.d">
+        <filterchain>
+          <replaceregex pattern="@file.list@" replace="${file.list.normal}" flags="i"/>
+        </filterchain>
+    </copy>
+
+    <!-- zip and sign it -->
+    <antcall target="ZipAndSigning">
+        <param name="hfile.name" value="${file.name.normal}"/>
+    </antcall>
+  </target>
+  
+  <!--=======================================================================-->
+  <!-- full                                                               -->
+  <!--=======================================================================-->
+  <target name="buildFull"
+          description="execute full gapps build">
+    <!-- preparations -->
+    <property environment="env"/>
+    <property name="file.name.full" value="${build.dir}/Slim_full_gapps.BETA.${PRODUCT_VERSION_MAJOR}.${PRODUCT_VERSION_MINOR}.${PRODUCT_VERSION_MAINTENANCE}-${build.today}.zip"/>
+    <delete dir="${work.dir}"/>
+    <propertyfile file="${build.dir}/gapps.filenames">
+      <entry  key="fullfilename" value="${file.name.full}"/>
+    </propertyfile>
+    <!-- copy files -->
+    <copy todir="${work.dir}"><fileset dir="${structure.dir}"/></copy>
+    <copy file="${app.dir}/extras/full/updater-script"  todir="${work.dir}/META-INF/com/google/android"/>
+
+    <!-- generate backup script --> 
+    <fileset id="item.file" dir="${work.dir}/system" includes="**/*.*" />
+    <pathconvert refid="item.file" property="file.list.full" pathsep="&#10;" dirsep="/">
+        <map from="${work.dir}/system/" to=''/>
+    </pathconvert>
+    <copy file="${app.dir}/extras/80-gapps.sh" todir="${work.dir}/system/addon.d">
+        <filterchain>
+          <replaceregex pattern="@file.list@" replace="${file.list.full}" flags="i"/>
+        </filterchain>
+    </copy>
+
+    <!-- zip and sign it -->
+    <antcall target="ZipAndSigning">
+        <param name="hfile.name" value="${file.name.full}"/>
+    </antcall>
+  </target>
+
+  <!--=======================================================================-->
+  <!-- aroma                                                              -->
+  <!--=======================================================================-->
+  <target name="buildAroma"
+          description="execute aroma gapps build">
+    <!-- preparations -->
+    <property environment="env"/>
+    <property name="file.name.aroma" value="${build.dir}/AROMA-LP-GAPPS-5.0-${build.today}.zip"/>
+    <delete dir="${work.dir}"/>
+    <propertyfile file="${build.dir}/gapps.filenames">
+      <entry  key="fullfilename" value="${file.name.aroma}"/>
+    </propertyfile>
+    <!-- copy files -->
+	<antcall target="values" />
+    <copy todir="${work.dir}">
+	     <fileset dir="${structure.dir}">
+         <exclude name="META-INF/com/google/android/**"/>
+         </fileset>
+    </copy>
+    <copy todir="${work.dir}"><fileset dir="${app.dir}/extras/aroma" /></copy>
+	
+	<!-- copy changelog --> 
+	<copy file="${app.dir}/extras/aroma-changelog/changelog_5.0.txt"  tofile="${work.dir}/META-INF/com/google/android/aroma/changelog.txt"/>
+
+    <!-- generate backup script --> 
+    <fileset id="item.file" dir="${work.dir}/system" includes="**/*.*" />
+    <pathconvert refid="item.file" property="file.list.aroma" pathsep="&#10;" dirsep="/">
+        <map from="${work.dir}/system/" to=''/>
+    </pathconvert>
+    <copy todir="${work.dir}/system/addon.d">
+        <fileset dir="${app.dir}/extras">
+			<include name="80-gapps.sh"/>
+			<include name="80-gapps_rmstockapps.sh"/>
+		</fileset>
+        <filterchain>
+          <replaceregex pattern="@file.list@" replace="${file.list.aroma}" flags="i"/>
+        </filterchain>
+    </copy>
+
+    <!-- zip and sign it -->
+    <antcall target="ZipAndSigning">
+        <param name="hfile.name" value="${file.name.aroma}"/>
+    </antcall>
+  </target>
+
+  <!--=======================================================================-->
+  <!-- generate values.prop                                                       -->
+  <!--=======================================================================-->
+  <target name="values">
+    <taskdef name="groovy" classname="org.codehaus.groovy.ant.Groovy"/>
+
+    <dirset id="dirs" dir="." includes="*"/>
+
+    <groovy>
+	    import java.text.SimpleDateFormat
+		
+		def sdf = new SimpleDateFormat("MMMM, dd yyyy")
+        new File("extras/aroma/values.prop").withWriter { w ->
+		w.println "android_ver=5.0.X"
+        w.println "build_date=${sdf.format(new Date())}"
+		
+		def youtube_size = new File('structure/system/app/YouTube').directorySize()
+		def chrome_size = new File('structure/system/app/Chrome').directorySize()
+		def gmail_size = new File('structure/system/app/Gmail2').directorySize()
+		def hangouts_size = new File('structure/system/app/Hangouts').directorySize() + new File('structure/system/app/HangoutsDialer').directorySize()
+		def talkback_size = new File('structure/system/priv-app/talkback').directorySize()
+		def facelock_size = new File('structure/optional').directorySize()
+		def messenger_size = new File('structure/system/app/Messenger').directorySize()
+		def nw_size = new File('structure/system/app/GenieWidget').directorySize()
+		def now_size = new File('structure/system/app/GoogleHome').directorySize()
+		def tts_size = new File('structure/system/app/GoogleTTS').directorySize() + new File('structure/system/tts').directorySize()
+		def keyboard_size = new File('structure/system/app/Keyboard').directorySize() + new File('structure/system/usr').directorySize()
+		def music_size = new File('structure/system/app/Music2').directorySize()
+		def search_size = new File('structure/system/priv-app/Velvet').directorySize()
+		def calendar_size = new File('structure/system/app/CalendarGoogle').directorySize()
+		def drive_size = new File('structure/system/app/Drive').directorySize()
+		def keep_size = new File('structure/system/app/Keep').directorySize()
+		def maps_size = new File('structure/system/app/Maps').directorySize()
+		def plus_size = new File('structure/system/app/PlusOne').directorySize()
+		def streetview_size = new File('structure/system/app/Street').directorySize()
+		def translate_size = new File('structure/system/app/Translate').directorySize()
+		def wallet_size = new File('structure/system/app/Wallet').directorySize()
+		def coreapps_size = new File('structure/system/app/ConfigUpdater').directorySize() + new File('structure/system/app/ExchangeServices').directorySize() + new File('structure/system/app/GoogleCalendarSyncAdapter').directorySize() + new File('structure/system/app/GoogleContactsSyncAdapter').directorySize() + new File('structure/system/etc').directorySize() + new File('structure/system/framework').directorySize() + new File('structure/system/lib').directorySize() + new File('structure/system/priv-app/GoogleBackupTransport').directorySize() + new File('structure/system/priv-app/GoogleFeedback').directorySize() + new File('structure/system/priv-app/GoogleLoginService').directorySize() + new File('structure/system/priv-app/GoogleOneTimeInitializer').directorySize() + new File('structure/system/priv-app/GooglePartnerSetup').directorySize() + new File('structure/system/priv-app/GoogleServicesFramework').directorySize() + new File('structure/system/priv-app/Phonesky').directorySize() + new File('structure/system/priv-app/PrebuiltGmsCore').directorySize() + new File('structure/system/priv-app/SetupWizard').directorySize()
+		
+		w.println "youtube_size=${youtube_size}"
+		w.println "chrome_size=${chrome_size}"
+		w.println "gmail_size=${gmail_size}"
+		w.println "hangouts_size=${hangouts_size}"
+		w.println "talkback_size=${talkback_size}"
+		w.println "facelock_size=${facelock_size}"
+		w.println "messenger_size=${messenger_size}"
+		w.println "nw_size=${nw_size}"
+		w.println "now_size=${now_size}"
+		w.println "tts_size=${tts_size}"
+		w.println "keyboard_size=${keyboard_size}"
+		w.println "music_size=${music_size}"
+		w.println "search_size=${search_size}"
+		w.println "calendar_size=${calendar_size}"
+		w.println "drive_size=${drive_size}"
+		w.println "keep_size=${keep_size}"
+		w.println "maps_size=${maps_size}"
+		w.println "plus_size=${plus_size}"
+		w.println "streetview_size=${streetview_size}"
+		w.println "translate_size=${translate_size}"
+		w.println "wallet_size=${wallet_size}"
+		w.println "coreapps_size=${coreapps_size}"
+      }
+    </groovy>
+  </target>
+
+
+  <!--=======================================================================-->
+  <!-- zip and sign it                                                       -->
+  <!--=======================================================================-->
+  <target name="ZipAndSigning">
+     <zip destfile="${build.dir}/unsigned.zip" basedir="${work.dir}"></zip>
+     <echo message="Signing gapps"/>
+     <java dir="${build.dir}" fork="true" failonerror="true" maxmemory="1536m" jar="${sign.jar}">
+       <arg value="-w"/>
+       <arg value="${sign.pem}"/>
+       <arg value="${sign.pk8}"/>
+       <arg value="${build.dir}/unsigned.zip"/>
+       <arg value="${hfile.name}"/>
+     </java>
+   </target>
+  <!--=======================================================================-->
+  <!-- cleanupBefore new build                                               -->
+  <!--=======================================================================-->
+  <target name="cleanupBefore"
+      description="delete old directories">
+      <delete dir="${build.dir}"/>
+      <delete dir="${work.dir}"/>
+  </target>
+
+  <!--=======================================================================-->
+  <!-- cleanupAfter build is done                                            -->
+  <!--=======================================================================-->
+  <target name="cleanupAfter"
+      description="delete unnecessary build files">
+      <echo message="Cleaning up"/>
+      <delete file="${build.dir}/unsigned.zip"/>
+      <delete file="${build.dir}/gapps.filenames"/>
+  </target>
+
+  <!--=======================================================================-->
+  <!-- initiating build                                                      -->
+  <!--=======================================================================-->
+  <target name ="initit"
+      description="initiating-steps">
+      <mkdir dir="${build.dir}"/>
+      <mkdir dir="${work.dir}"/>
+  </target>
+
+  <!--=======================================================================-->
+  <!-- test build                                                            -->
+  <!--=======================================================================-->
+  <target name ="testit"
+      description="testtest">
+      <echo message="${x.dir}"/>
+      <property name="x.dir" value="test9899"/>
+      <echo message="${x.dir}"/>
+  </target>
+    
+    
+</project>
