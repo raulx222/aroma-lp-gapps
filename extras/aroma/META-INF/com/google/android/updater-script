@@ -12,87 +12,22 @@ ui_print(" ");
 
 ui_print("-> Removing old GApps...");
 
-delete_recursive(
-"system/app/CalendarGoogle",
-"system/app/Chrome",
-"system/app/ConfigUpdater",
-"system/app/Drive",
-"system/app/ExchangeServices",
-"system/app/FaceLock",
-"system/app/GenieWidget",
-"system/app/Gmail2",
-"system/app/GoogleCalendarSyncAdapter",
-"system/app/GoogleContactsSyncAdapter",
-"system/app/GoogleHome",
-"system/app/GoogleTTS",
-"system/app/Hangouts",
-"system/app/HangoutsDialer",
-"system/app/Keep",
-"system/app/Keyboard",
-"system/app/Maps",
-"system/app/Messenger",
-"system/app/Music2",
-"system/app/PlusOne",
-"system/app/Street",
-"system/app/Translate",
-"system/app/Wallet",
-"system/app/YouTube",
-"system/etc/g.prop",
-"system/etc/permissions/com.google.android.camera2.xml",
-"system/etc/permissions/com.google.android.dialer.support.xml",
-"system/etc/permissions/com.google.android.maps.xml",
-"system/etc/permissions/com.google.android.media.effects.xml",
-"system/etc/permissions/com.google.widevine.software.drm.xml",
-"system/etc/permissions/features.xml",
-"system/etc/preferred-apps/google.xml",
-"system/framework/com.google.android.camera2.jar",
-"system/framework/com.google.android.dialer.support.jar",
-"system/framework/com.google.android.maps.jar",
-"system/framework/com.google.android.media.effects.jar",
-"system/framework/com.google.widevine.software.drm.jar",
-"system/lib/libfilterpack_facedetect.so",
-"system/lib/libjni_latinime.so",
-"system/lib/libjni_latinimegoogle.so",
-"system/priv-app/GoogleBackupTransport",
-"system/priv-app/GoogleFeedback",
-"system/priv-app/GoogleLoginService",
-"system/priv-app/GoogleOneTimeInitializer",
-"system/priv-app/GooglePartnerSetup",
-"system/priv-app/GoogleServicesFramework",
-"system/priv-app/Phonesky",
-"system/priv-app/PrebuiltGmsCore",
-"system/priv-app/SetupWizard",
-"system/priv-app/Velvet",
-"system/tts",
-"/system/usr/srec/en-US/c_fst",
-"/system/usr/srec/en-US/clg",
-"/system/usr/srec/en-US/commands.abnf",
-"/system/usr/srec/en-US/compile_grammar.config",
-"/system/usr/srec/en-US/contacts.abnf",
-"/system/usr/srec/en-US/dict",
-"/system/usr/srec/en-US/dictation.config",
-"/system/usr/srec/en-US/dnn",
-"/system/usr/srec/en-US/endpointer_dictation.config",
-"/system/usr/srec/en-US/endpointer_voicesearch.config",
-"/system/usr/srec/en-US/ep_acoustic_model",
-"/system/usr/srec/en-US/g2p_fst",
-"/system/usr/srec/en-US/grammar.config",
-"/system/usr/srec/en-US/hclg_shotword",
-"/system/usr/srec/en-US/hmm_symbols",
-"/system/usr/srec/en-US/hmmlist",
-"/system/usr/srec/en-US/hotword.config",
-"/system/usr/srec/en-US/hotword_classifier",
-"/system/usr/srec/en-US/hotword_normalizer",
-"/system/usr/srec/en-US/hotword_prompt.txt",
-"/system/usr/srec/en-US/hotword_word_symbols",
-"/system/usr/srec/en-US/metadata",
-"/system/usr/srec/en-US/norm_fst",
-"/system/usr/srec/en-US/normalizer",
-"/system/usr/srec/en-US/offensive_word_normalizer",
-"/system/usr/srec/en-US/phone_state_map",
-"/system/usr/srec/en-US/phonelist",
-"/system/usr/srec/en-US/rescoring_lm",
-"/system/usr/srec/en-US/wordlist",
+delete(
+"/system/addon.d/82-full_gapps.sh",
+"/system/addon.d/81-normal_gapps.sh",
+"/system/addon.d/80-gapps.sh",
+"/system/addon.d/71-gapps-faceunlock.sh",
+"/system/app/FaceLock/FaceLock.apk",
+"/system/app/FaceLock/lib/arm/libfacelock_jni.so",
+"/system/etc/permissions/com.google.android.camera2.xml",
+"/system/framework/com.google.android.camera2.jar",
+"/system/lib/libgcam.so",
+"/system/lib/libgcam_swig_jni.so",
+"/system/lib/libjni_eglfence.so",
+"/system/lib/libjni_filtershow_filters.so",
+"/system/lib/libjni_mosaic.so",
+"/system/lib/liblightcycle.so",
+"/system/lib/libnativehelper_compat.so",
 "/system/vendor/pittpatt/models/detection/multi_pose_face_landmark_detectors.8/landmark_group_meta_data.bin",
 "/system/vendor/pittpatt/models/detection/multi_pose_face_landmark_detectors.8/left_eye-y0-yi45-p0-pi45-r0-ri20.lg_32-tree7-wmd.bin",
 "/system/vendor/pittpatt/models/detection/multi_pose_face_landmark_detectors.8/nose_base-y0-yi45-p0-pi45-r0-ri20.lg_32-tree7-wmd.bin",
@@ -102,7 +37,8 @@ delete_recursive(
 "/system/vendor/pittpatt/models/detection/yaw_roll_face_detectors.7.1/head-y0-yi45-p0-pi45-rp30-ri30.5-v24-tree7-2-wmd.bin",
 "/system/vendor/pittpatt/models/detection/yaw_roll_face_detectors.7.1/pose-r.8.1.bin",
 "/system/vendor/pittpatt/models/detection/yaw_roll_face_detectors.7.1/pose-y-r.8.1.bin",
-"/system/vendor/pittpatt/models/recognition/face.face.y0-y0-71-N-tree_7-wmd.bin"
+"/system/vendor/pittpatt/models/recognition/face.face.y0-y0-71-N-tree_7-wmd.bin",
+"/system/@file.list@"
 );
 
 #-----Stock AOSP replace
@@ -111,10 +47,16 @@ if
 then
 	ui_print("-> Removing some stock apps...");
 	if
-		file_getprop("/tmp/aroma/gapps.prop", "item.1.1") == "1"
+		file_getprop("/tmp/aroma/gapps.prop", "item.1.2") == "1"
 	then
 		ui_print("	-> Removing stock app: Browser");
 		delete_recursive("/system/app/Browser");
+	endif;
+	if
+		file_getprop("/tmp/aroma/gapps.prop", "item.1.3") == "1"
+	then
+		ui_print("	-> Removing stock app: Email");
+		delete_recursive("/system/app/Email","/system/app/PrebuiltGmail");
 	endif;
 	if
 		file_getprop("/tmp/aroma/gapps.prop", "item.1.7") == "1"
@@ -129,16 +71,16 @@ then
 		delete_recursive("/system/app/PicoTts", "/system/priv-app/PicoTts", "/system/lib/libttscompat.so", "/system/lib/libttspico.so");
 	endif;
 	if
-		file_getprop("/tmp/aroma/gapps.prop", "item.1.14") == "1"
-	then
-		ui_print("	-> Removing stock app: Calendar");
-		delete_recursive("/system/app/Calendar" , "/system/priv-app/Calendar");
-	endif;
-	if
 		file_getprop("/tmp/aroma/gapps.prop", "item.1.11") == "1"
 	then
 		ui_print("	-> Removing stock app: Keyboard");
 		delete_recursive("/system/app/LatinIME");
+	endif;
+	if
+		file_getprop("/tmp/aroma/gapps.prop", "item.1.14") == "1"
+	then
+		ui_print("	-> Removing stock app: Calendar");
+		delete_recursive("/system/app/Calendar" , "/system/priv-app/Calendar");
 	endif;
 endif;
 
@@ -298,7 +240,6 @@ else
 endif;
 
 #-------Flash backup script
-delete("/system/addon.d/82-full_gapps.sh","/system/addon.d/81-normal_gapps.sh","/system/addon.d/80-gapps.sh");
 ui_print("-> Flashing backup script...");
 if
 	file_getprop("/tmp/aroma/gapps.prop", "item.3.1") == "1"
@@ -333,6 +274,17 @@ then
 endif;
 
 if
+	file_getprop("/tmp/aroma/gapps.prop", "item.1.3") == "0"
+then
+	if
+		file_getprop("/tmp/protection.prop", "email") == "0"
+	then
+		ui_print("	-> Force install: Gmail");
+		package_extract_dir("system/app/Gmail2", "/system/app/Gmail2");
+	endif;
+endif;
+
+if
 	file_getprop("/tmp/aroma/gapps.prop", "item.1.7") == "0"
 then
 	if
@@ -356,17 +308,6 @@ then
 endif;
 
 if
-	file_getprop("/tmp/aroma/gapps.prop", "item.1.14") == "0"
-then
-	if
-		file_getprop("/tmp/protection.prop", "calendar") == "0"
-	then
-		ui_print("	-> Force install: Google Calendar");
-		package_extract_dir("system/app/CalendarGoogle", "/system/app/CalendarGoogle");
-	endif;
-endif;
-
-if
 	file_getprop("/tmp/aroma/gapps.prop", "item.1.11") == "0"
 then
 	if
@@ -377,6 +318,18 @@ then
 		package_extract_dir("system/usr/srec/en-US", "/system/usr/srec/en-US");
 	endif;
 endif;
+
+if
+	file_getprop("/tmp/aroma/gapps.prop", "item.1.14") == "0"
+then
+	if
+		file_getprop("/tmp/protection.prop", "calendar") == "0"
+	then
+		ui_print("	-> Force install: Google Calendar");
+		package_extract_dir("system/app/CalendarGoogle", "/system/app/CalendarGoogle");
+	endif;
+endif;
+
 delete("/tmp/protection.sh", "/tmp/protection.prop");
 endif;
 

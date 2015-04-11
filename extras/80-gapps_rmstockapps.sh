@@ -57,6 +57,11 @@ case "$1" in
   ;;
   post-restore)
     [ -d /system/app/Chrome ] && rm -rf /system/app/Browser
+	if [ -d /system/app/Gmail2 ]
+	then
+		rm -rf /system/app/Email
+		rm -rf /system/app/PrebuiltGmail
+	fi
 	[ -d /system/app/Messenger ] && rm -rf /system/priv-app/Mms
 	if [ -d /system/app/GoogleTTS ]
 	then

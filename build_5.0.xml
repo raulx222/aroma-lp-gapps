@@ -258,7 +258,11 @@
          <exclude name="META-INF/com/google/android/**"/>
          </fileset>
     </copy>
-    <copy todir="${work.dir}"><fileset dir="${app.dir}/extras/aroma" /></copy>
+    <copy todir="${work.dir}">
+		<fileset dir="${app.dir}/extras/aroma">
+		<exclude name="META-INF/com/google/android/updater-script" />
+		</fileset>
+	</copy>
 	<antcall target="values" />
 
     <!-- generate backup script --> 
@@ -273,6 +277,19 @@
 		</fileset>
         <filterchain>
           <replaceregex pattern="@file.list@" replace="${file.list.aroma}" flags="i"/>
+        </filterchain>
+    </copy>
+	
+	<!-- generate updater-script --> 
+	<pathconvert refid="item.file" property="file.list.aroma.updater-script" pathsep="&quot;,&#10;&quot;/system/" dirsep="/">
+		<map from="${work.dir}/system/" to=''/>
+    </pathconvert>
+    <copy todir="${work.dir}">
+        <fileset dir="${app.dir}/extras/aroma">
+		<include name="META-INF/com/google/android/updater-script" />
+		</fileset>
+        <filterchain>
+          <replaceregex pattern="@file.list@" replace="${file.list.aroma.updater-script}" flags="i"/>
         </filterchain>
     </copy>
 
