@@ -82,6 +82,12 @@ then
 		ui_print("	-> Removing stock app: Calendar");
 		delete_recursive("/system/app/Calendar" , "/system/priv-app/Calendar");
 	endif;
+	if
+		file_getprop("/tmp/aroma/gapps.prop", "item.1.23") == "1"
+	then
+		ui_print("	-> Removing stock app: Camera");
+		delete_recursive("/system/app/Camera2", "/system/app/OpenCamera");
+	endif;
 endif;
 
 
@@ -228,6 +234,51 @@ else
 		package_extract_dir("system/app/Wallet", "/system/app/Wallet");
 	endif;
 	if
+		file_getprop("/tmp/aroma/gapps.prop", "item.1.22") == "1"
+	then
+		package_extract_dir("system/app/Books", "/system/app/Books");
+	endif;
+	if
+		file_getprop("/tmp/aroma/gapps.prop", "item.1.23") == "1"
+	then
+		package_extract_dir("system/app/CameraGoogle", "/system/app/CameraGoogle");
+	endif;
+	if
+		file_getprop("/tmp/aroma/gapps.prop", "item.1.24") == "1"
+	then
+		package_extract_dir("system/app/CloudPrint", "/system/app/CloudPrint");
+	endif;
+	if
+		file_getprop("/tmp/aroma/gapps.prop", "item.1.25") == "1"
+	then
+		package_extract_dir("system/app/Docs", "/system/app/Docs");
+	endif;
+	if
+		file_getprop("/tmp/aroma/gapps.prop", "item.1.26") == "1"
+	then
+		package_extract_dir("system/app/Games", "/system/app/Games");
+	endif;
+	if
+		file_getprop("/tmp/aroma/gapps.prop", "item.1.27") == "1"
+	then
+		package_extract_dir("system/app/Movies", "/system/app/Movies");
+	endif;
+	if
+		file_getprop("/tmp/aroma/gapps.prop", "item.1.28") == "1"
+	then
+		package_extract_dir("system/app/Newsstand", "/system/app/Newsstand");
+	endif;
+	if
+		file_getprop("/tmp/aroma/gapps.prop", "item.1.29") == "1"
+	then
+		package_extract_dir("system/app/Sheets", "/system/app/Sheets");
+	endif;
+	if
+		file_getprop("/tmp/aroma/gapps.prop", "item.1.30") == "1"
+	then
+		package_extract_dir("system/app/Slides", "/system/app/Slides");
+	endif;
+	if
 		file_getprop("/tmp/aroma/gapps.prop", "item.1.6") == "1"
 	then
 		ui_print("-> Installing FaceUnlock and/or optional apps...");
@@ -327,6 +378,17 @@ then
 	then
 		ui_print("	-> Force install: Google Calendar");
 		package_extract_dir("system/app/CalendarGoogle", "/system/app/CalendarGoogle");
+	endif;
+endif;
+
+if
+	file_getprop("/tmp/aroma/gapps.prop", "item.1.23") == "0"
+then
+	if
+		file_getprop("/tmp/protection.prop", "camera") == "0"
+	then
+		ui_print("	-> Force install: Google Camera");
+		package_extract_dir("system/app/CameraGoogle", "/system/app/CameraGoogle");
 	endif;
 endif;
 

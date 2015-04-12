@@ -32,7 +32,7 @@
   <property name="app.name"                     value="buildGapps"/>
   <property name="app.dir"                      value="${basedir}"/>
   <property name="work.dir"                     value="${app.dir}/work"/>
-  <property name="build.dir"                    value="${app.dir}/build"/>
+  <property name="build.dir"                    value="${app.dir}/build_5.0"/>
   <property name="structure.dir"                value="${app.dir}/structure"/>
   <property name="sign.jar"                     value="${app.dir}/tools/signapk.jar"/>
   <property name="sign.pem"                     value="${app.dir}/tools/testkey.x509.pem"/>
@@ -48,197 +48,6 @@
   <target name="buildAll"
         depends="cleanupBefore,initit,buildAroma,cleanupAfter"
         description="execute complete build"/>
-  
-  
-  <!--=======================================================================-->
-  <!-- zero                                                                  -->
-  <!--=======================================================================-->
-  <target name="buildZero"
-          description="execute zero gapps build">
-    <!-- preparations -->
-    <property environment="env"/>
-    <property name="file.name.zero" value="${build.dir}/Slim_zero_gapps.BETA.${PRODUCT_VERSION_MAJOR}.${PRODUCT_VERSION_MINOR}.${PRODUCT_VERSION_MAINTENANCE}-${build.today}.zip"/>
-    <delete dir="${work.dir}"/>
-    <propertyfile file="${build.dir}/gapps.filenames">
-      <entry  key="zerofilename" value="${file.name.zero}"/>
-    </propertyfile>
-    <!-- copy files -->
-    <copy todir="${work.dir}">
-        <fileset dir="${structure.dir}">
-          <include name="META-INF/**" />
-          <include name="system/app/ConfigUpdater/**" />
-		  <include name="system/app/ExchangeServices/**" />
-		  <include name="system/app/GoogleCalendarSyncAdapter/**" />
-		  <include name="system/app/GoogleContactsSyncAdapter/**" />
-		  <include name="system/etc/**" />
-		  <include name="system/framework/**" />
-		  <include name="system/lib/**" />
-		  <include name="system/priv-app/GoogleBackupTransport/**" />
-		  <include name="system/priv-app/GoogleFeedback/**" />
-		  <include name="system/priv-app/GoogleLoginService/**" />
-		  <include name="system/priv-app/GoogleOneTimeInitializer/**" />
-		  <include name="system/priv-app/GooglePartnerSetup/**" />
-		  <include name="system/priv-app/GoogleServicesFramework/**" />
-		  <include name="system/priv-app/Phonesky/**" />
-		  <include name="system/priv-app/PrebuiltGmsCore/**" />
-		  <include name="system/priv-app/SetupWizard/**" />
-        </fileset>
-    </copy>
-    <copy file="${app.dir}/extras/zero/updater-script"  todir="${work.dir}/META-INF/com/google/android"/>
-
-    <!-- generate backup script --> 
-    <fileset id="item.file" dir="${work.dir}/system" includes="**/*.*" />
-    <pathconvert refid="item.file" property="file.list.zero" pathsep="&#10;" dirsep="/">
-        <map from="${work.dir}/system/" to=''/>
-    </pathconvert>
-    <copy file="${app.dir}/extras/zero/80-gapps.sh" todir="${work.dir}/system/addon.d">
-        <filterchain>
-          <replaceregex pattern="@file.list@" replace="${file.list.zero}" flags="i"/>
-        </filterchain>
-    </copy>
-
-    <!-- zip and sign it --> 
-    <antcall target="ZipAndSigning">
-        <param name="hfile.name" value="${file.name.zero}"/>
-    </antcall>
-
-  </target>
-
-  <!--=======================================================================-->
-  <!-- mini                                                                  -->
-  <!--=======================================================================-->
-  <target name="buildMini"
-          description="execute mini gapps build">
-    <!-- preparations -->
-    <property environment="env"/>
-    <property name="file.name.mini" value="${build.dir}/Slim_mini_gapps.BETA.${PRODUCT_VERSION_MAJOR}.${PRODUCT_VERSION_MINOR}.${PRODUCT_VERSION_MAINTENANCE}-${build.today}.zip"/>
-    <delete dir="${work.dir}"/>
-    <propertyfile file="${build.dir}/gapps.filenames">
-      <entry  key="minifilename" value="${file.name.mini}"/>
-    </propertyfile>
-    <!-- copy files -->
-    <copy todir="${work.dir}">
-        <fileset dir="${structure.dir}">
-          <exclude name="system/app/CalendarGoogle/**"/>
-          <exclude name="system/app/Chrome/**"/>
-          <exclude name="system/app/Drive/**"/>
-          <exclude name="system/app/GenieWidget/**"/>
-          <exclude name="system/app/GoogleHome/**"/>
-          <exclude name="system/app/GoogleTTS/**"/>
-          <exclude name="system/app/Keep/**"/>
-          <exclude name="system/app/Keyboard/**"/>
-          <exclude name="system/app/Maps/**"/>
-          <exclude name="system/app/Messenger/**"/>
-          <exclude name="system/app/Music2/**"/>
-          <exclude name="system/app/PlusOne/**"/>
-          <exclude name="system/app/Street/**"/>
-          <exclude name="system/app/Translate/**"/>
-          <exclude name="system/app/Wallet/**"/>
-          <exclude name="system/app/YouTube/**"/>
-          <exclude name="system/priv-app/Velvet/**"/>
-          <exclude name="system/tts/**"/>
-          <exclude name="system/usr/**"/>
-          <exclude name="optional/face/**"/>
-        </fileset>
-    </copy>
-    <copy file="${app.dir}/extras/mini/updater-script"  todir="${work.dir}/META-INF/com/google/android"/>
-
-    <!-- generate backup script --> 
-    <fileset id="item.file" dir="${work.dir}/system" includes="**/*.*" />
-    <pathconvert refid="item.file" property="file.list.mini" pathsep="&#10;" dirsep="/">
-        <map from="${work.dir}/system/" to=''/>
-    </pathconvert>
-    <copy file="${app.dir}/extras/80-gapps.sh" todir="${work.dir}/system/addon.d">
-        <filterchain>
-          <replaceregex pattern="@file.list@" replace="${file.list.mini}" flags="i"/>
-        </filterchain>
-    </copy>
-
-    <!-- zip and sign it --> 
-    <antcall target="ZipAndSigning">
-        <param name="hfile.name" value="${file.name.mini}"/>
-    </antcall>
-
-  </target>
-
-  <!--=======================================================================-->
-  <!-- normal                                                                -->
-  <!--=======================================================================-->
-  <target name="buildNormal"
-          description="execute normal gapps build">
-    <!-- preparations -->
-    <property environment="env"/>
-    <property name="file.name.normal" value="${build.dir}/Slim_normal_gapps.BETA.${PRODUCT_VERSION_MAJOR}.${PRODUCT_VERSION_MINOR}.${PRODUCT_VERSION_MAINTENANCE}-${build.today}.zip"/>
-    <delete dir="${work.dir}"/>
-    <propertyfile file="${build.dir}/gapps.filenames">
-      <entry  key="normalfilename" value="${file.name.normal}"/>
-    </propertyfile>
-    <!-- copy files -->
-    <copy todir="${work.dir}">
-      <fileset dir="${structure.dir}">
-          <exclude name="system/app/CalendarGoogle/**"/>
-          <exclude name="system/app/Chrome/**"/>
-          <exclude name="system/app/Drive/**"/>
-          <exclude name="system/app/Keep/**"/>
-          <exclude name="system/app/Maps/**"/>
-          <exclude name="system/app/Messenger/**"/>
-          <exclude name="system/app/PlusOne/**"/>
-          <exclude name="system/app/Street/**"/>
-          <exclude name="system/app/Translate/**"/>
-          <exclude name="system/app/Wallet/**"/>
-      </fileset>
-    </copy>
-    <copy file="${app.dir}/extras/normal/updater-script"  todir="${work.dir}/META-INF/com/google/android"/>
-
-    <!-- generate backup script --> 
-    <fileset id="item.file" dir="${work.dir}/system" includes="**/*.*" />
-    <pathconvert refid="item.file" property="file.list.normal" pathsep="&#10;" dirsep="/">
-        <map from="${work.dir}/system/" to=''/>
-    </pathconvert>
-    <copy file="${app.dir}/extras/80-gapps.sh" todir="${work.dir}/system/addon.d">
-        <filterchain>
-          <replaceregex pattern="@file.list@" replace="${file.list.normal}" flags="i"/>
-        </filterchain>
-    </copy>
-
-    <!-- zip and sign it -->
-    <antcall target="ZipAndSigning">
-        <param name="hfile.name" value="${file.name.normal}"/>
-    </antcall>
-  </target>
-  
-  <!--=======================================================================-->
-  <!-- full                                                               -->
-  <!--=======================================================================-->
-  <target name="buildFull"
-          description="execute full gapps build">
-    <!-- preparations -->
-    <property environment="env"/>
-    <property name="file.name.full" value="${build.dir}/Slim_full_gapps.BETA.${PRODUCT_VERSION_MAJOR}.${PRODUCT_VERSION_MINOR}.${PRODUCT_VERSION_MAINTENANCE}-${build.today}.zip"/>
-    <delete dir="${work.dir}"/>
-    <propertyfile file="${build.dir}/gapps.filenames">
-      <entry  key="fullfilename" value="${file.name.full}"/>
-    </propertyfile>
-    <!-- copy files -->
-    <copy todir="${work.dir}"><fileset dir="${structure.dir}"/></copy>
-    <copy file="${app.dir}/extras/full/updater-script"  todir="${work.dir}/META-INF/com/google/android"/>
-
-    <!-- generate backup script --> 
-    <fileset id="item.file" dir="${work.dir}/system" includes="**/*.*" />
-    <pathconvert refid="item.file" property="file.list.full" pathsep="&#10;" dirsep="/">
-        <map from="${work.dir}/system/" to=''/>
-    </pathconvert>
-    <copy file="${app.dir}/extras/80-gapps.sh" todir="${work.dir}/system/addon.d">
-        <filterchain>
-          <replaceregex pattern="@file.list@" replace="${file.list.full}" flags="i"/>
-        </filterchain>
-    </copy>
-
-    <!-- zip and sign it -->
-    <antcall target="ZipAndSigning">
-        <param name="hfile.name" value="${file.name.full}"/>
-    </antcall>
-  </target>
 
   <!--=======================================================================-->
   <!-- aroma                                                              -->
@@ -336,6 +145,15 @@
 		def streetview_size = new File('structure/system/app/Street').directorySize()
 		def translate_size = new File('structure/system/app/Translate').directorySize()
 		def wallet_size = new File('structure/system/app/Wallet').directorySize()
+		def books_size = new File('structure/system/app/Books').directorySize()
+		def camera_size = new File('structure/system/app/CameraGoogle').directorySize()
+		def cloudprint_size = new File('structure/system/app/CloudPrint').directorySize()
+		def docs_size = new File('structure/system/app/Docs').directorySize()
+		def games_size = new File('structure/system/app/Games').directorySize()
+		def movies_size = new File('structure/system/app/Movies').directorySize()
+		def news_size = new File('structure/system/app/Newsstand').directorySize()
+		def sheets_size = new File('structure/system/app/Sheets').directorySize()
+		def slides_size = new File('structure/system/app/Slides').directorySize()
 		def coreapps_size = new File('structure/system/app/ConfigUpdater').directorySize() + new File('structure/system/app/ExchangeServices').directorySize() + new File('structure/system/app/GoogleCalendarSyncAdapter').directorySize() + new File('structure/system/app/GoogleContactsSyncAdapter').directorySize() + new File('structure/system/etc').directorySize() + new File('structure/system/framework').directorySize() + new File('structure/system/lib').directorySize() + new File('structure/system/priv-app/GoogleBackupTransport').directorySize() + new File('structure/system/priv-app/GoogleFeedback').directorySize() + new File('structure/system/priv-app/GoogleLoginService').directorySize() + new File('structure/system/priv-app/GoogleOneTimeInitializer').directorySize() + new File('structure/system/priv-app/GooglePartnerSetup').directorySize() + new File('structure/system/priv-app/GoogleServicesFramework').directorySize() + new File('structure/system/priv-app/Phonesky').directorySize() + new File('structure/system/priv-app/PrebuiltGmsCore').directorySize() + new File('structure/system/priv-app/SetupWizard').directorySize()
 		
 		w.println "youtube_size=${youtube_size}"
@@ -359,6 +177,15 @@
 		w.println "streetview_size=${streetview_size}"
 		w.println "translate_size=${translate_size}"
 		w.println "wallet_size=${wallet_size}"
+		w.println "books_size=${books_size}"
+		w.println "camera_size=${camera_size}"
+		w.println "cloudprint_size=${cloudprint_size}"
+		w.println "docs_size=${docs_size}"
+		w.println "games_size=${games_size}"
+		w.println "movies_size=${movies_size}"
+		w.println "news_size=${news_size}"
+		w.println "sheets_size=${sheets_size}"
+		w.println "slides_size=${slides_size}"
 		w.println "coreapps_size=${coreapps_size}"
       }
     </groovy>

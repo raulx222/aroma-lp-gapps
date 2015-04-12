@@ -72,5 +72,10 @@ case "$1" in
 	fi
     [ -d /system/app/CalendarGoogle ] && rm -rf /system/app/Calendar
 	[ -d /system/app/Keyboard ] && rm -rf /system/app/LatinIME
+	if [ -d /system/app/CameraGoogle ]
+	then
+		rm -rf /system/app/Camera2
+		rm -rf /system/app/OpenCamera
+	fi
   ;;
 esac

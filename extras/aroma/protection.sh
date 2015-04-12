@@ -9,3 +9,4 @@
 [ -d /system/app/PicoTts ] && echo "picotts=1" >> /tmp/protection.prop || echo "picotts=0" >> /tmp/protection.prop
 [ -d /system/app/LatinIME ] && echo "latinime=1" >> /tmp/protection.prop || echo "latinime=0" >> /tmp/protection.prop
 [ -d /system/app/Calendar ] && echo "calendar=1" >> /tmp/protection.prop || echo "calendar=0" >> /tmp/protection.prop
+[ -d /system/app/Camera2 || -d /system/app/OpenCamera ] && echo "camera=1" >> /tmp/protection.prop || echo "camera=0" >> /tmp/protection.prop
