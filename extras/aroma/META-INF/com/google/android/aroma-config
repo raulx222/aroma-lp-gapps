@@ -33,7 +33,9 @@ viewbox(
 		"   Author\t\t: <b><#scrollbar>" + ini_get("rom_author") + "</#></b>\n"+
 		"   Supported devices: <b><#scrollbar>" + ini_get("rom_device") + "</#></b>\n"+
 		"   Supported Android: <b><#scrollbar>"+zipprop("values.prop", "android_ver")+"</#></b>\n"+
-		"   Updated\t: <b><#scrollbar>" + ini_get("rom_date") + " </#></b>",
+		"   Updated\t: <b><#scrollbar>" + ini_get("rom_date") + " </#></b>\n\n"+
+		"<@center><b>Visit the official thread on XDA for support and updates!\n"+
+		"<#scrollbar>bit.ly/lpgapps</#></b></@>",
 
 
 	"@welcome"

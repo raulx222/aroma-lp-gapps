@@ -415,3 +415,5 @@ run_program("/sbin/busybox", "umount", "/system");
 set_progress(1);
 ui_print(" ");
 ui_print("-> GApps successfully installed!");
+ui_print("Visit the official thread on XDA for support and updates!");
+ui_print("bit.ly/lpgapps");
