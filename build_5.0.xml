@@ -90,8 +90,8 @@
     </copy>
 	
 	<!-- generate updater-script --> 
-	<pathconvert refid="item.file" property="file.list.aroma.updater-script" pathsep="&quot;,&#10;&quot;/system/" dirsep="/">
-		<map from="${work.dir}/system/" to=''/>
+	<pathconvert refid="item.file" property="file.list.aroma.updater-script" pathsep="&quot;,&#10;&quot;" dirsep="/">
+		<map from="${work.dir}/system/" to="/system/"/>
     </pathconvert>
     <copy todir="${work.dir}">
         <fileset dir="${app.dir}/extras/aroma">

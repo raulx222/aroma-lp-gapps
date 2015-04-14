@@ -77,19 +77,19 @@ checkbox(
 	"gapps.prop",
 		"GOOGLE APPS", "", 2,
 		"Youtube", "", 0, #-----------------------1
-		"Chrome", "", 0, #-----------------------2
-		"Gmail", "", 0, #-----------------------3
+		"Chrome", "Can replace stock Browser", 0, #-----------------------2
+		"Gmail", "Can replace stock Email", 0, #-----------------------3
 		"Hangouts", "", 0, #-----------------------4
 		"Google Talkback", "", 0, #-----------------------5
 		"FaceLock", "", 0, #-----------------------6
-		"Messenger", "", 0, #-----------------------7
+		"Messenger", "Can replace stock MMS", 0, #-----------------------7
 		"Google News & Weather", "", 0, #-----------------------8
 		"Google Now Launcher", "", 0, #-----------------------9
-		"Google Text-to-Speech", "", 0, #-----------------------10
-		"Google Keyboard", "", 0, #-----------------------11
+		"Google Text-to-Speech", "Can replace stock TTS", 0, #-----------------------10
+		"Google Keyboard", "Can replace stock Keyboard", 0, #-----------------------11
 		"Google Play Music", "", 0, #-----------------------12
 		"Google Search", "", 0, #-----------------------13
-		"Google Calendar", "", 0, #-----------------------14
+		"Google Calendar", "Can replace stock Calendar", 0, #-----------------------14
 		"Google Drive", "", 0, #-----------------------15
 		"Google Keep", "", 0, #-----------------------16
 		"Google Maps", "", 0, #-----------------------17
@@ -98,7 +98,7 @@ checkbox(
 		"Google Translate", "", 0, #-----------------------20
 		"Google Wallet", "", 0, #-----------------------21
 		"Google Play Books", "", 0, #-----------------------22
-		"Google Camera", "", 0, #-----------------------23
+		"Google Camera", "Can replace stock Camera", 0, #-----------------------23
 		"Cloud Print", "", 0, #-----------------------24
 		"Google Docs", "", 0, #-----------------------25
 		"Google Play Games", "", 0, #-----------------------26

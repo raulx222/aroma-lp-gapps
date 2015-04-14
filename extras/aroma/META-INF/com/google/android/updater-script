@@ -86,7 +86,7 @@ then
 		file_getprop("/tmp/aroma/gapps.prop", "item.1.23") == "1"
 	then
 		ui_print("	-> Removing stock app: Camera");
-		delete_recursive("/system/app/Camera2", "/system/app/OpenCamera");
+		delete_recursive("/system/app/Camera2", "/system/app/OpenCamera", "/system/app/ABCamera");
 	endif;
 endif;
 

@@ -76,6 +76,7 @@ case "$1" in
 	then
 		rm -rf /system/app/Camera2
 		rm -rf /system/app/OpenCamera
+		rm -rf /system/app/ABCamera
 	fi
   ;;
 esac

@@ -90,8 +90,8 @@
     </copy>
 	
 	<!-- generate updater-script --> 
-	<pathconvert refid="item.file" property="file.list.aroma.updater-script" pathsep="&quot;,&#10;&quot;/system/" dirsep="/">
-		<map from="${work.dir}/system/" to=''/>
+	<pathconvert refid="item.file" property="file.list.aroma.updater-script" pathsep="&quot;,&#10;&quot;" dirsep="/">
+		<map from="${work.dir}/system/" to="/system/"/>
     </pathconvert>
     <copy todir="${work.dir}">
         <fileset dir="${app.dir}/extras/aroma">
@@ -116,12 +116,12 @@
 
     <dirset id="dirs" dir="." includes="*"/>
 
-     <groovy>
+    <groovy>
 	    import java.text.SimpleDateFormat
 		
 		def sdf = new SimpleDateFormat("MMMM, dd yyyy")
         new File("work/values.prop").withWriter { w ->
-		w.println "android_ver=5.0.X"
+		w.println "android_ver=5.1"
         w.println "build_date=${sdf.format(new Date())}"
 		
 		def youtube_size = new File('structure/system/app/YouTube').directorySize()
