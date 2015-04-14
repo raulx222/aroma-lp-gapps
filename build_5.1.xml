@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE project>
 <!--=========================================================================-->
-<!-- Original authors:                                                                       -->
-<!--    tortureduck: Manfred Hofbauer                                        -->
-<!--    dankoman   : Daniel Koman                                            -->
-<!--=========================================================================-->
 <!--                                                                         -->
-<!--  PROJECT:  buildGapps                                                   -->
+<!--  PROJECT:  Build AROMA LP-GAPPS 5.1                                                  -->
 <!--                                                                         -->
-<!--  FILE:     build.xml                                                    -->
+<!--  FILE:     build_5.0.xml                                                    -->
 <!--                                                                         -->
 <!--  DESCRIPTION:                                                           -->
 <!--                                                                         -->
 <!--    builds the gapps                                                     -->
 <!--                                                                         -->
-<!--  AUTHOR: raulx222                                                              -->
+<!--  AUTHORS:                                                               -->
+<!--                                                                         -->
+<!--    tortureduck: Manfred Hofbauer                                        -->
+<!--    dankoman   : Daniel Koman                                            -->
+<!--    victorlapin: Victor Lapin                                            -->
+<!--    raulx222   : Raul Petru                                          -->
+<!--    uzen  	   : Dmitry Popov                                            -->
 <!--                                                                         -->
 <!--=========================================================================-->
 
