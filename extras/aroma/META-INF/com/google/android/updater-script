@@ -2,6 +2,8 @@ ui_print(" ");
 ui_print("LP-GAPPS");                          
 ui_print("AROMA");
 ui_print(" ");
+ui_print("For support and updates visit the official thread on XDA! ( bit.ly/lpgapps )");
+ui_print(" ");
 
 set_progress(0.1);
 ui_print("-> Mounting system...");
@@ -41,11 +43,31 @@ delete(
 "/system/@file.list@"
 );
 
-#-----Stock AOSP replace
+#-----Stock apps replace
 if
 	file_getprop("/tmp/aroma/gapps.prop", "item.3.1") == "1"
 then
-	ui_print("-> Removing some stock apps...");
+	if
+		file_getprop("/tmp/aroma/gapps.prop", "item.2.1") == "1"
+	then
+		ui_print("-> Removing some stock apps...");
+		ui_print("	-> Removing stock app: Browser");
+		delete_recursive("/system/app/Browser");
+		ui_print("	-> Removing stock app: Email");
+		delete_recursive("/system/app/Email","/system/app/PrebuiltGmail");		
+		ui_print("	-> Removing stock app: MMS");
+		delete_recursive("/system/priv-app/Mms");		
+		ui_print("	-> Removing stock app: PicoTTS");
+		delete_recursive("/system/app/PicoTts", "/system/priv-app/PicoTts", "/system/lib/libttscompat.so", "/system/lib/libttspico.so");		
+		ui_print("	-> Removing stock app: Keyboard");
+		delete_recursive("/system/app/LatinIME");		
+		ui_print("	-> Removing stock app: Calendar");
+		delete_recursive("/system/app/Calendar" , "/system/priv-app/Calendar");		
+		ui_print("	-> Removing stock app: Camera");
+		delete_recursive("/system/app/Camera2", "/system/app/OpenCamera", "/system/app/ABCamera");
+	else
+		
+	ui_print("-> Removing some stock apps(if selected)...");
 	if
 		file_getprop("/tmp/aroma/gapps.prop", "item.1.2") == "1"
 	then
@@ -88,6 +110,8 @@ then
 		ui_print("	-> Removing stock app: Camera");
 		delete_recursive("/system/app/Camera2", "/system/app/OpenCamera", "/system/app/ABCamera");
 	endif;
+	
+	endif;
 endif;
 
 
@@ -129,7 +153,7 @@ else
 	
 	set_progress(0.5);
 	#-----OPTIONAL APPS
-	ui_print("	-> Installing selected apps(if selected)...");
+	ui_print("	-> Installing optional apps(if selected)...");
 	if
 		file_getprop("/tmp/aroma/gapps.prop", "item.1.1") == "1"
 	then
@@ -312,86 +336,171 @@ then
 	set_perm(0, 0, 0777, "/tmp/protection.sh");
 	run_program("/tmp/protection.sh", "");
 
+
+#Protection script status: enabled/disabled
+if
+	file_getprop("/tmp/aroma/gapps.prop", "item.4.1") == "1"
+then
+#If protection script enabled
 #Check if at least one app from a certain type is installed. If not, force install the Google app counterpart.
-if
-	file_getprop("/tmp/aroma/gapps.prop", "item.1.2") == "0"
-then
 	if
-		file_getprop("/tmp/protection.prop", "browser") == "0"
+		file_getprop("/tmp/aroma/gapps.prop", "item.1.2") == "0"
 	then
-		ui_print("	-> Force install: Chrome");
-		package_extract_dir("system/app/Chrome", "/system/app/Chrome");
+		if
+			file_getprop("/tmp/protection.prop", "browser") == "0"
+		then
+			ui_print("	-> Force install: Chrome");
+			package_extract_dir("system/app/Chrome", "/system/app/Chrome");
+		endif;
 	endif;
-endif;
 
-if
-	file_getprop("/tmp/aroma/gapps.prop", "item.1.3") == "0"
-then
 	if
-		file_getprop("/tmp/protection.prop", "email") == "0"
+		file_getprop("/tmp/aroma/gapps.prop", "item.1.3") == "0"
 	then
-		ui_print("	-> Force install: Gmail");
-		package_extract_dir("system/app/Gmail2", "/system/app/Gmail2");
+		if
+			file_getprop("/tmp/protection.prop", "email") == "0"
+		then
+			ui_print("	-> Force install: Gmail");
+			package_extract_dir("system/app/Gmail2", "/system/app/Gmail2");
+		endif;
 	endif;
-endif;
 
-if
-	file_getprop("/tmp/aroma/gapps.prop", "item.1.7") == "0"
-then
 	if
-		file_getprop("/tmp/protection.prop", "mms") == "0"
+		file_getprop("/tmp/aroma/gapps.prop", "item.1.7") == "0"
 	then
-		ui_print("	-> Force install: Messenger");
-		package_extract_dir("system/app/Messenger", "/system/app/Messenger");
+		if
+			file_getprop("/tmp/protection.prop", "mms") == "0"
+		then
+			ui_print("	-> Force install: Messenger");
+			package_extract_dir("system/app/Messenger", "/system/app/Messenger");
+		endif;
 	endif;
-endif;
-
-if
-	file_getprop("/tmp/aroma/gapps.prop", "item.1.10") == "0"
-then
+	
 	if
-		file_getprop("/tmp/protection.prop", "picotts") == "0"
+		file_getprop("/tmp/aroma/gapps.prop", "item.1.10") == "0"
 	then
-		ui_print("	-> Force install: GoogleTTS");
-		package_extract_dir("system/app/GoogleTTS", "/system/app/GoogleTTS");
-		package_extract_dir("system/tts", "/system/tts");
+		if
+			file_getprop("/tmp/protection.prop", "picotts") == "0"
+		then
+			ui_print("	-> Force install: GoogleTTS");
+			package_extract_dir("system/app/GoogleTTS", "/system/app/GoogleTTS");
+			package_extract_dir("system/tts", "/system/tts");
+		endif;
 	endif;
-endif;
 
-if
-	file_getprop("/tmp/aroma/gapps.prop", "item.1.11") == "0"
-then
 	if
-		file_getprop("/tmp/protection.prop", "latinime") == "0"
+		file_getprop("/tmp/aroma/gapps.prop", "item.1.11") == "0"
 	then
-		ui_print("	-> Force install: Google Keyboard");
-		package_extract_dir("system/app/Keyboard", "/system/app/Keyboard");
-		package_extract_dir("system/usr/srec/en-US", "/system/usr/srec/en-US");
+		if
+			file_getprop("/tmp/protection.prop", "latinime") == "0"
+		then
+			ui_print("	-> Force install: Google Keyboard");
+			package_extract_dir("system/app/Keyboard", "/system/app/Keyboard");
+			package_extract_dir("system/usr/srec/en-US", "/system/usr/srec/en-US");
+		endif;
 	endif;
-endif;
-
-if
-	file_getprop("/tmp/aroma/gapps.prop", "item.1.14") == "0"
-then
+	
 	if
-		file_getprop("/tmp/protection.prop", "calendar") == "0"
+		file_getprop("/tmp/aroma/gapps.prop", "item.1.14") == "0"
 	then
-		ui_print("	-> Force install: Google Calendar");
-		package_extract_dir("system/app/CalendarGoogle", "/system/app/CalendarGoogle");
+		if
+			file_getprop("/tmp/protection.prop", "calendar") == "0"
+		then
+			ui_print("	-> Force install: Google Calendar");
+			package_extract_dir("system/app/CalendarGoogle", "/system/app/CalendarGoogle");
+		endif;
 	endif;
-endif;
-
-if
-	file_getprop("/tmp/aroma/gapps.prop", "item.1.23") == "0"
-then
+	
 	if
-		file_getprop("/tmp/protection.prop", "camera") == "0"
+		file_getprop("/tmp/aroma/gapps.prop", "item.1.23") == "0"
 	then
-		ui_print("	-> Force install: Google Camera");
-		package_extract_dir("system/app/CameraGoogle", "/system/app/CameraGoogle");
+		if
+			file_getprop("/tmp/protection.prop", "camera") == "0"
+		then
+			ui_print("	-> Force install: Google Camera");
+			package_extract_dir("system/app/CameraGoogle", "/system/app/CameraGoogle");
+		endif;
 	endif;
-endif;
 
+else
+
+	#If protection script disabled
+	
+	if
+		file_getprop("/tmp/aroma/gapps.prop", "item.1.11") == "0"
+	then
+		if
+			file_getprop("/tmp/protection.prop", "latinime") == "0"
+		then
+			ui_print("	-> Force install: Google Keyboard");
+			package_extract_dir("system/app/Keyboard", "/system/app/Keyboard");
+			package_extract_dir("system/usr/srec/en-US", "/system/usr/srec/en-US");
+		endif;
+	endif;
+
+	if
+		file_getprop("/tmp/aroma/gapps.prop", "item.1.10") == "0"
+	then
+		if
+			file_getprop("/tmp/protection.prop", "picotts") == "0"
+		then
+			ui_print("	-> Force install: GoogleTTS");
+			package_extract_dir("system/app/GoogleTTS", "/system/app/GoogleTTS");
+			package_extract_dir("system/tts", "/system/tts");
+		endif;
+	endif;
+	
+	if
+		file_getprop("/tmp/aroma/gapps.prop", "item.1.2") == "0"
+	then
+		if
+			file_getprop("/tmp/protection.prop", "browser") == "0"
+		then
+			ui_print("	-> Can't find app: Browser");
+		endif;
+	endif;
+
+	if
+		file_getprop("/tmp/aroma/gapps.prop", "item.1.3") == "0"
+	then
+		if
+			file_getprop("/tmp/protection.prop", "email") == "0"
+		then
+			ui_print("	-> Can't find app: Email");
+		endif;
+	endif;
+
+	if
+		file_getprop("/tmp/aroma/gapps.prop", "item.1.7") == "0"
+	then
+		if
+			file_getprop("/tmp/protection.prop", "mms") == "0"
+		then
+			ui_print("	-> Can't find app: MMS");
+		endif;
+	endif;
+	
+	if
+		file_getprop("/tmp/aroma/gapps.prop", "item.1.14") == "0"
+	then
+		if
+			file_getprop("/tmp/protection.prop", "calendar") == "0"
+		then
+			ui_print("	-> Can't find app: Calendar");
+		endif;
+	endif;
+	
+	if
+		file_getprop("/tmp/aroma/gapps.prop", "item.1.23") == "0"
+	then
+		if
+			file_getprop("/tmp/protection.prop", "camera") == "0"
+		then
+			ui_print("	-> Can't find app: Camera");
+		endif;
+	endif;
+
+endif;
 delete("/tmp/protection.sh", "/tmp/protection.prop");
 endif;
 
@@ -415,5 +524,3 @@ run_program("/sbin/busybox", "umount", "/system");
 set_progress(1);
 ui_print(" ");
 ui_print("-> GApps successfully installed!");
-ui_print("Visit the official thread on XDA for support and updates!");
-ui_print("bit.ly/lpgapps");

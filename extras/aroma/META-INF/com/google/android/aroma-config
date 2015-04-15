@@ -34,40 +34,11 @@ viewbox(
 		"   Supported devices: <b><#scrollbar>" + ini_get("rom_device") + "</#></b>\n"+
 		"   Supported Android: <b><#scrollbar>"+zipprop("values.prop", "android_ver")+"</#></b>\n"+
 		"   Updated\t: <b><#scrollbar>" + ini_get("rom_date") + " </#></b>\n\n"+
-		"<@center><b>Visit the official thread on XDA for support and updates!\n"+
-		"<#scrollbar>bit.ly/lpgapps</#></b></@>",
+		"<b>For support and updates visit the official thread on XDA! <#scrollbar>( bit.ly/lpgapps )</#></b>",
 
 
 	"@welcome"
 );
-
-
-#Main Menu
-menubox (
-	"LP-GAPPS",
-	"Tap on *Installation* to choose which GApps to install",
-	"@apps",
-	"menu.prop",
-	
-	"<b>Installation</b>", "Continue to install GApps", "@install",
-	"<b>Exit</b>", "Exit", "@default"
-);
-
-
-#Exit
-if prop("menu.prop", "selected")=="2" then
-	if
-		confirm(
-			"Exit",
-			"Are you sure want to exit the Installer?",
-			"@alert"
-		)=="yes"
-	then
-		exit("");
-	endif;
-
-	back("1");
-endif;
 
 
 #Choose apps to install
@@ -87,7 +58,7 @@ checkbox(
 		"Messenger", "Can replace stock MMS", 0, #-----------------------7
 		"Google News & Weather", "", 0, #-----------------------8
 		"Google Now Launcher", "", 0, #-----------------------9
-		"Google Text-to-Speech", "Can replace stock TTS", 0, #-----------------------10
+		"Google Text-to-Speech", "Can replace PicoTTS", 0, #-----------------------10
 		"Google Keyboard", "Can replace stock Keyboard", 0, #-----------------------11
 		"Google Play Music", "", 0, #-----------------------12
 		"Google Search", "", 0, #-----------------------13
@@ -114,7 +85,10 @@ checkbox(
 		"INSTALL ALL",                        " - Install complete GApps package",			0,
 		
 	"REPLACE STOCK APPS", "", 2,
-		"Replace stock apps", "- Stock apps will be replaced if their counterpart is selected", 0
+		"Replace stock apps", "- Stock apps will be replaced if their counterpart is selected", 0,
+	
+	"PROTECTION SCRIPT", "", 2,
+		"Protection script", "<b>Force installation of missing essential apps.</b>\n-[Checked] Maximum protection\n-[Unchecked] Minimum protection", 1
 );
 
 #------------------------------------------GAPPS SIZE------------------------------------------------------------------
