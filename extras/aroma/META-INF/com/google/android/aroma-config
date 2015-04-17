@@ -5,7 +5,11 @@ ini_set("rom_device", "Any!");
 ini_set("rom_date", zipprop("values.prop", "build_date"));
 ini_set("text_quit", "Exit");
 
+##############################################
+#
 #Set colorspace to RGBA in order to obtain proper splash screen colors
+#
+##############################################
 ini_set("force_colorspace", "rgba");
 splash(
     3000,
@@ -13,16 +17,40 @@ splash(
 );
 
 
+
+
+
+
+##############################################
+#
 #Font
+#
+##############################################
 fontresload("0", "ttf/Roboto-Regular.ttf", "12");
 fontresload("1", "ttf/Roboto-Regular.ttf", "14");
 
 
+
+
+
+
+##############################################
+#
 #UI
+#
+##############################################
 theme("material_green");
 
 
-#Welcome
+
+
+
+
+##############################################
+#
+#Welcome box
+#
+##############################################
 viewbox(
 	"Welcome",
 	
@@ -41,57 +69,336 @@ viewbox(
 );
 
 
-#Choose apps to install
-ini_set("text_next", "Next");
-checkbox(
-	"Apps",
-	"Please select which GApps you want to install",
-	"@default",
-	"gapps.prop",
-		"GOOGLE APPS", "", 2,
-		"Youtube", "", 0, #-----------------------1
-		"Chrome", "Can replace stock Browser", 0, #-----------------------2
-		"Gmail", "Can replace stock Email", 0, #-----------------------3
-		"Hangouts", "", 0, #-----------------------4
-		"Google Talkback", "", 0, #-----------------------5
-		"FaceLock", "", 0, #-----------------------6
-		"Messenger", "Can replace stock MMS", 0, #-----------------------7
-		"Google News & Weather", "", 0, #-----------------------8
-		"Google Now Launcher", "", 0, #-----------------------9
-		"Google Text-to-Speech", "Can replace PicoTTS", 0, #-----------------------10
-		"Google Keyboard", "Can replace stock Keyboard", 0, #-----------------------11
-		"Google Play Music", "", 0, #-----------------------12
-		"Google Search", "", 0, #-----------------------13
-		"Google Calendar", "Can replace stock Calendar", 0, #-----------------------14
-		"Google Drive", "", 0, #-----------------------15
-		"Google Keep", "", 0, #-----------------------16
-		"Google Maps", "", 0, #-----------------------17
-		"Google+", "", 0, #-----------------------18
-		"Google Street View", "", 0, #-----------------------19
-		"Google Translate", "", 0, #-----------------------20
-		"Google Wallet", "", 0, #-----------------------21
-		"Google Play Books", "", 0, #-----------------------22
-		"Google Camera", "Can replace stock Camera", 0, #-----------------------23
-		"Cloud Print", "", 0, #-----------------------24
-		"Google Docs", "", 0, #-----------------------25
-		"Google Play Games", "", 0, #-----------------------26
-		"Google Movies", "", 0, #-----------------------27
-		"Google Play Newsstand", "", 0, #-----------------------28
-		"Google Sheets", "", 0, #-----------------------29
-		"Google Slides", "", 0, #-----------------------30
-		
-		
-	"INSTALL ALL GAPPS", "", 2,
-		"INSTALL ALL",                        " - Install complete GApps package",			0,
-		
-	"REPLACE STOCK APPS", "", 2,
-		"Replace stock apps", "- Stock apps will be replaced if their counterpart is selected", 0,
-	
-	"PROTECTION SCRIPT", "", 2,
-		"Protection script", "<b>Force installation of missing essential apps.</b>\n-[Checked] Maximum protection\n-[Unchecked] Minimum protection", 1
+
+
+
+##############################################
+#
+# MENU
+#
+##############################################
+menubox(
+  #-- Title
+    "LP-GAPPS",
+  
+  #-- Sub Title
+    "Please select one of the choices below",
+  
+  #-- Icon
+    "@apps",
+    
+  #-- Will be saved in /tmp/aroma/demo.prop
+    "menu.prop",
+    
+  #-------------------------+-----------------[ Menubox Items ]-------------------------+---------------#
+  # TITLE                   |  SUBTITLE                                                 |   Item Icons  #
+  #-------------------------+-----------------------------------------------------------+---------------#
+  
+    "Customized installation",      "Select yourself which GApps to install",       "@personalize",      #-- selected = 1
+    "Complete installation",       "Install complete GApps package",                "@default",         #-- selected = 2
+    "Exit",              "Exit to recovery",    "@alert"      #-- selected = 3
 );
 
-#------------------------------------------GAPPS SIZE------------------------------------------------------------------
+#Exit
+if prop("menu.prop", "selected")=="3" then
+	if
+		confirm(
+			"Exit",
+			"Are you sure want to exit the Installer?",
+			"@alert"
+		)=="yes"
+	then
+		exit("");
+	endif;
+
+	back("1");
+endif;
+
+if prop("menu.prop","selected")=="2" then
+textbox(
+    "Apps",
+  
+    "Install complete GApps package",
+  
+    "@update",
+
+	"The following GApps will be installed:\n"+
+	"	<#scrollbar>•Chrome</#>\n"+
+	"	<#scrollbar>•Gmail</#>\n"+
+	"	<#scrollbar>•Messenger</#>\n"+
+	"	<#scrollbar>•Google TTS</#>\n"+
+	"	<#scrollbar>•Google Calendar</#>\n"+
+	"	<#scrollbar>•Google Keyboard</#>\n"+
+	"	<#scrollbar>•Google Camera</#>\n"+
+	"	<#scrollbar>•Google Now Launcher</#>\n"+
+	"	<#scrollbar>•Google Play Music</#>\n"+
+	"	<#scrollbar>•Youtube</#>\n"+
+	"	<#scrollbar>•Hangouts</#>\n"+
+	"	<#scrollbar>•Hangouts Dialer</#>\n"+
+	"	<#scrollbar>•Google Talkback</#>\n"+
+	"	<#scrollbar>•FaceLock</#>\n"+
+	"	<#scrollbar>•Google News & Weather</#>\n"+
+	"	<#scrollbar>•Google Search</#>\n"+
+	"	<#scrollbar>•Google Drive</#>\n"+
+	"	<#scrollbar>•Google Keep</#>\n"+
+	"	<#scrollbar>•Google Maps</#>\n"+
+	"	<#scrollbar>•Google+</#>\n"+
+	"	<#scrollbar>•Google Street View</#>\n"+
+	"	<#scrollbar>•Google Translate</#>\n"+
+	"	<#scrollbar>•Google Wallet</#>\n"+
+	"	<#scrollbar>•Google Play Books</#>\n"+
+	"	<#scrollbar>•Cloud Print</#>\n"+
+	"	<#scrollbar>•Google Docs</#>\n"+
+	"	<#scrollbar>•Google Play Games</#>\n"+
+	"	<#scrollbar>•Google Movies</#>\n"+
+	"	<#scrollbar>•Google Play Newsstand</#>\n"+
+	"	<#scrollbar>•Google Sheets</#>\n"+
+	"	<#scrollbar>•Google Slides</#>\n"
+);
+
+form(
+    "Apps",
+    "Install complete GApps package",
+    "@default",
+    "allgapps.prop",
+  #
+  # Type:
+  #  - group              = Group
+  #  - select             = Select Item
+  #  - select.selected    = Selected Select Item
+  #  - check              = Checkbox Item
+  #  - check.checked      = Checked Checkbox Item
+  #  - hide               = Hidden
+  #
+  #-------------+-----------------------[ Selectbox Without Group ]------------------------------#
+  # PROP ID     | TITLE            |  SUBTITLE                                   |    Type       #
+  #-------------+--------+-------------------------------------------------------+---------------#	
+    "gapp1",     "Stock Browser",        "",                                         "group",
+      "app1",     "<b>Replace Browser</b>",       "Replace Browser with Chrome",                      "check",
+      
+    "gapp2",     "Stock Email",        "",                                         "group",
+      "app2",     "<b>Replace Email</b>",       "Replace Email with Gmail",                      "check",
+
+    "gapp3",     "Stock MMS",        "",                                         "group",
+      "app3",     "<b>Replace MMS</b>",       "Replace MMS with Messenger",                      "check",
+
+    "gapp4",     "Stock TTS",        "",                                         "group",
+      "app4",     "<b>Replace PicoTTS</b>",       "Replace PicoTTS with Google TTS",                      "check",
+
+    "gapp5",     "Stock Calendar",        "",                                         "group",
+      "app5",     "<b>Replace Calendar</b>",       "Replace Calendar with Google Calendar",                      "check",
+
+    "gapp6",     "Stock Keyboard",        "",                                         "group",
+      "app6",     "<b>Replace LatinIME</b>",       "Replace LatinIME with Google Keyboard",                      "check",
+	  
+    "gapp7",     "Stock Camera",        "",                                         "group",
+      "app7",     "<b>Replace Camera2</b>",       "Replace Camera2 with Google Camera",                      "check",
+
+    "gapp8",     "Stock Launcher",        "",                                         "group",
+      "app8",     "<b>Replace Trebuchet</b>",       "Replace Trebuchet with Google Now Launcher",                      "check",
+
+    "gapp9",     "Stock Music Player",        "",                                         "group",
+      "app9",     "<b>Replace Eleven</b>",       "Replace Eleven with Google Play Music",                      "check"
+);
+writetmpfile(
+		"gapps.prop",
+		
+		"app1=1\n"+
+		"app2=1\n"+
+		"app3=1\n"+
+		"app4=1\n"+
+		"app5=1\n"+
+		"app6=1\n"+
+		"app7=1\n"+
+		"app8=1\n"+
+		"app9=1\n"+
+		"app10=1\n"+
+		"app11=1\n"+
+		"app12=1\n"+
+		"app13=1\n"+
+		"app14=1\n"+
+		"app15=1\n"+
+		"app16=1\n"+
+		"app17=1\n"+
+		"app18=1\n"+
+		"app19=1\n"+
+		"app20=1\n"+
+		"app21=1\n"+
+		"app22=1\n"+
+		"app23=1\n"+
+		"app24=1\n"+
+		"app25=1\n"+
+		"app26=1\n"+
+		"app27=1\n"+
+		"app28=1\n"+
+		"app29=1\n"+
+		"app30=1\n"+
+		"app31=1\n"+
+		"gapp1="+prop("allgapps.prop", "app1")+"\n"+
+		"gapp2="+prop("allgapps.prop", "app2")+"\n"+
+		"gapp3="+prop("allgapps.prop", "app3")+"\n"+
+		"gapp4="+prop("allgapps.prop", "app4")+"\n"+
+		"gapp5="+prop("allgapps.prop", "app5")+"\n"+
+		"gapp6="+prop("allgapps.prop", "app6")+"\n"+
+		"gapp7="+prop("allgapps.prop", "app7")+"\n"+
+		"gapp8="+prop("allgapps.prop", "app8")+"\n"+
+		"gapp9="+prop("allgapps.prop", "app9")+"\n"+
+		"protection=1");
+endif;
+
+
+
+##############################################
+#
+#Choose which apps to install
+#
+##############################################
+if prop("menu.prop","selected")=="1" then
+writetmpfile(
+		"gapps.prop",
+		
+		"app1=0\n"+
+		"app2=0\n"+
+		"app3=0\n"+
+		"app4=0\n"+
+		"app5=0\n"+
+		"app6=0\n"+
+		"app7=0\n"+
+		"app8=0\n"+
+		"app9=0\n"+
+		"app10=0\n"+
+		"app11=0\n"+
+		"app12=0\n"+
+		"app13=0\n"+
+		"app14=0\n"+
+		"app15=0\n"+
+		"app16=0\n"+
+		"app17=0\n"+
+		"app18=0\n"+
+		"app19=0\n"+
+		"app20=0\n"+
+		"app21=0\n"+
+		"app22=0\n"+
+		"app23=0\n"+
+		"app24=0\n"+
+		"app25=0\n"+
+		"app26=0\n"+
+		"app27=0\n"+
+		"app28=0\n"+
+		"app29=0\n"+
+		"app30=0\n"+
+		"app31=0\n"+
+		"gapp1=0\n"+
+		"gapp2=0\n"+
+		"gapp3=0\n"+
+		"gapp4=0\n"+
+		"gapp5=0\n"+
+		"gapp6=0\n"+
+		"gapp7=0\n"+
+		"gapp8=0\n"+
+		"gapp9=0\n"+
+		"protection=1");
+form(
+    "Apps",
+    "Please select which GApps you want to install",
+    "@default",
+    "gapps.prop",
+  #
+  # Type:
+  #  - group              = Group
+  #  - select             = Select Item
+  #  - select.selected    = Selected Select Item
+  #  - check              = Checkbox Item
+  #  - check.checked      = Checked Checkbox Item
+  #  - hide               = Hidden
+  #
+  #-------------+-----------------------[ Selectbox Without Group ]------------------------------#
+  # PROP ID     | TITLE            |  SUBTITLE                                   |    Type       #
+  #-------------+--------+-------------------------------------------------------+---------------#
+    "protection",     "Protection script",        "",                                         "group",
+      "1",     "Standard protection",       "",                      "select.selected",
+      "0",     "Vital protection",       "Use this if you have trouble with 'Force install'",                      "select",
+
+    "gapp1",     "Chrome",        "",                                         "group",
+      "app1",     "<b>Install Chrome</b>",       "",                      "check",
+      "0",     "",       "Don't replace Browser",                      "select.selected",
+      "1",     "",       "Replace Browser",                      "select",
+      
+    "gapp2",     "Gmail",        "",                                         "group",
+      "app2",     "<b>Install Gmail</b>",       "",                      "check",
+      "0",     "",       "Don't replace Email",                      "select.selected",
+      "1",     "",       "Replace Email",                      "select",
+
+    "gapp3",     "Messenger",        "",                                         "group",
+      "app3",     "<b>Install Messenger</b>",       "",                      "check",
+      "0",     "",       "Don't replace MMS",                      "select.selected",
+      "1",     "",       "Replace MMS",                      "select",
+
+    "gapp4",     "Google TTS",        "",                                         "group",
+      "app4",     "<b>Install Google TTS</b>",       "",                      "check",
+      "0",     "",       "Don't replace PicoTTS",                      "select.selected",
+      "1",     "",       "Replace PicoTTS",                      "select",
+
+    "gapp5",     "Google Calendar",        "",                                         "group",
+      "app5",     "<b>Install Google Calendar</b>",       "",                      "check",
+      "0",     "",       "Don't replace Calendar",                      "select.selected",
+      "1",     "",       "Replace Calendar",                      "select",
+
+    "gapp6",     "Google Keyboard",        "",                                         "group",
+      "app6",     "<b>Install Google Keyboard</b>",       "",                      "check",
+      "0",     "",       "Don't replace LatinIME",                      "select.selected",
+      "1",     "",       "Replace LatinIME",                      "select",
+	  
+    "gapp7",     "Google Camera",        "",                                         "group",
+      "app7",     "<b>Install Google Camera</b>",       "",                      "check",
+      "0",     "",       "Don't replace Camera2",                      "select.selected",
+      "1",     "",       "Replace Camera2",                      "select",
+
+    "gapp8",     "Google Now Launcher",        "",                                         "group",
+      "app8",     "<b>Install Google Now Launcher</b>",       "",                      "check",
+      "0",     "",       "Don't replace Trebuchet",                      "select.selected",
+      "1",     "",       "Replace Trebuchet",                      "select",
+
+    "gapp9",     "Google Play Music",        "",                                         "group",
+      "app9",     "<b>Install Google Play Music</b>",       "",                      "check",
+      "0",     "",       "Don't replace Eleven",                      "select.selected",
+      "1",     "",       "Replace Eleven",                      "select",
+	  
+    "othergapps",     "Other GApps",        "",                                         "group",
+      "app10",     "<b>Youtube</b>",       "Install Youtube",                      "check",
+      "app11",     "<b>Hangouts</b>",       "Install Hangouts",                      "check",
+	  "app31",     "<b>Hangouts Dialer</b>",       "Install Hangouts Dialer",                      "check",
+      "app12",     "<b>Google Talkback</b>",       "Install Google Talkback",                      "check",
+      "app13",     "<b>FaceLock</b>",       "Install FaceLock",                      "check",
+      "app14",     "<b>Google News & Weather</b>",       "Install Google News & Weather",                      "check",
+      "app15",     "<b>Google Search</b>",       "Install Google Search",                      "check",
+      "app16",     "<b>Google Drive</b>",       "Install Google Drive",                      "check",
+      "app17",     "<b>Google Keep</b>",       "Install Google Keep",                      "check",
+      "app18",     "<b>Google Maps</b>",       "Install Google Maps",                      "check",
+      "app19",     "<b>Google+</b>",       "Install Google+",                      "check",
+	  "app20",     "<b>Google Street View</b>",       "Install Google Street View",                      "check",
+	  "app21",     "<b>Google Translate</b>",       "Install Google Translate",                      "check",
+	  "app22",     "<b>Google Wallet</b>",       "Install Google Wallet",                      "check",
+	  "app23",     "<b>Google Play Books</b>",       "Install Google Play Books",                      "check",
+	  "app24",     "<b>Cloud Print</b>",       "Install Cloud Print",                      "check",
+	  "app25",     "<b>Google Docs</b>",       "Install Google Docs",                      "check",
+	  "app26",     "<b>Google Play Games</b>",       "Install Google Play Games",                      "check",
+	  "app27",     "<b>Google Movies</b>",       "Install Google Movies",                      "check",
+	  "app28",     "<b>Google Play Newsstand</b>",       "Install Google Play Newsstand",                      "check",
+	  "app29",     "<b>Google Sheets</b>",       "Install Google Sheets",                      "check",
+	  "app30",     "<b>Google Slides</b>",       "Install Google Slides",                      "check"
+);
+endif;
+
+
+
+
+
+##############################################
+#
+#GAPPS SIZE - take the values from values.prop and calculate them
+#
+##############################################
 setvar("gsize", zipprop("values.prop", "coreapps_size"));
 
 
@@ -103,6 +410,7 @@ then
 	setvar("gsize", cal(zipprop("values.prop", "chrome_size"), "+", getvar("gsize")));
 	setvar("gsize", cal(zipprop("values.prop", "gmail_size"), "+", getvar("gsize")));
 	setvar("gsize", cal(zipprop("values.prop", "hangouts_size"), "+", getvar("gsize")));
+	setvar("gsize", cal(zipprop("values.prop", "hangoutsdialer_size"), "+", getvar("gsize")));
 	setvar("gsize", cal(zipprop("values.prop", "talkback_size"), "+", getvar("gsize")));
 	setvar("gsize", cal(zipprop("values.prop", "facelock_size"), "+", getvar("gsize")));
 	setvar("gsize", cal(zipprop("values.prop", "messenger_size"), "+", getvar("gsize")));
@@ -131,188 +439,194 @@ then
 	setvar("gsize", cal(zipprop("values.prop", "slides_size"), "+", getvar("gsize")));
 else
 
-#---nested
+#-----else
 if
-	prop("gapps.prop", "item.1.1")=="1"
+	prop("gapps.prop", "app10")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "youtube_size"), "+", getvar("gsize")));
 endif;
 
 if
-	prop("gapps.prop", "item.1.2")=="1"
+	prop("gapps.prop", "app1")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "chrome_size"), "+", getvar("gsize")));
 endif;
 
 if
-	prop("gapps.prop", "item.1.3")=="1"
+	prop("gapps.prop", "app2")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "gmail_size"), "+", getvar("gsize")));
 endif;
 
 if
-	prop("gapps.prop", "item.1.4")=="1"
+	prop("gapps.prop", "app11")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "hangouts_size"), "+", getvar("gsize")));
 endif;
 
 if
-	prop("gapps.prop", "item.1.5")=="1"
+	prop("gapps.prop", "app31")=="1"
+then
+	setvar("gsize", cal(zipprop("values.prop", "hangoutsdialer_size"), "+", getvar("gsize")));
+endif;
+
+if
+	prop("gapps.prop", "app12")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "talkback_size"), "+", getvar("gsize")));
 endif;
 
 if
-	prop("gapps.prop", "item.1.6")=="1"
+	prop("gapps.prop", "app13")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "facelock_size"), "+", getvar("gsize")));
 endif;
 
 if
-	prop("gapps.prop", "item.1.7")=="1"
+	prop("gapps.prop", "app3")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "messenger_size"), "+", getvar("gsize")));
 endif;
 
 if
-	prop("gapps.prop", "item.1.8")=="1"
+	prop("gapps.prop", "app14")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "nw_size"), "+", getvar("gsize")));
 endif;
 
 if
-	prop("gapps.prop", "item.1.9")=="1"
+	prop("gapps.prop", "app8")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "now_size"), "+", getvar("gsize")));
 endif;
 
 if
-	prop("gapps.prop", "item.1.10")=="1"
+	prop("gapps.prop", "app4")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "tts_size"), "+", getvar("gsize")));
 endif;
 
 if
-	prop("gapps.prop", "item.1.11")=="1"
+	prop("gapps.prop", "app6")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "keyboard_size"), "+", getvar("gsize")));
 endif;
 
 if
-	prop("gapps.prop", "item.1.12")=="1"
+	prop("gapps.prop", "app9")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "music_size"), "+", getvar("gsize")));
 endif;
 
 if
-	prop("gapps.prop", "item.1.13")=="1"
+	prop("gapps.prop", "app15")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "search_size"), "+", getvar("gsize")));
 endif;
 
 if
-	prop("gapps.prop", "item.1.14")=="1"
+	prop("gapps.prop", "app5")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "calendar_size"), "+", getvar("gsize")));
 endif;
 
 if
-	prop("gapps.prop", "item.1.15")=="1"
+	prop("gapps.prop", "app16")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "drive_size"), "+", getvar("gsize")));
 endif;
 
 if
-	prop("gapps.prop", "item.1.16")=="1"
+	prop("gapps.prop", "app17")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "keep_size"), "+", getvar("gsize")));
 endif;
 
 if
-	prop("gapps.prop", "item.1.17")=="1"
+	prop("gapps.prop", "app18")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "maps_size"), "+", getvar("gsize")));
 endif;
 
 if
-	prop("gapps.prop", "item.1.18")=="1"
+	prop("gapps.prop", "app19")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "plus_size"), "+", getvar("gsize")));
 endif;
 
 if
-	prop("gapps.prop", "item.1.19")=="1"
+	prop("gapps.prop", "app20")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "streetview_size"), "+", getvar("gsize")));
 endif;
 
 if
-	prop("gapps.prop", "item.1.20")=="1"
+	prop("gapps.prop", "app21")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "translate_size"), "+", getvar("gsize")));
 endif;
 
 if
-	prop("gapps.prop", "item.1.21")=="1"
+	prop("gapps.prop", "app22")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "wallet_size"), "+", getvar("gsize")));
 endif;
 
 if
-	prop("gapps.prop", "item.1.22")=="1"
+	prop("gapps.prop", "app23")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "books_size"), "+", getvar("gsize")));
 endif;
 
 if
-	prop("gapps.prop", "item.1.23")=="1"
+	prop("gapps.prop", "app7")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "camera_size"), "+", getvar("gsize")));
 endif;
 
 if
-	prop("gapps.prop", "item.1.24")=="1"
+	prop("gapps.prop", "app24")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "cloudprint_size"), "+", getvar("gsize")));
 endif;
 
 if
-	prop("gapps.prop", "item.1.25")=="1"
+	prop("gapps.prop", "app25")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "docs_size"), "+", getvar("gsize")));
 endif;
 
 if
-	prop("gapps.prop", "item.1.26")=="1"
+	prop("gapps.prop", "app26")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "games_size"), "+", getvar("gsize")));
 endif;
 
 if
-	prop("gapps.prop", "item.1.27")=="1"
+	prop("gapps.prop", "app27")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "movies_size"), "+", getvar("gsize")));
 endif;
 
 if
-	prop("gapps.prop", "item.1.28")=="1"
+	prop("gapps.prop", "app28")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "news_size"), "+", getvar("gsize")));
 endif;
 
 if
-	prop("gapps.prop", "item.1.29")=="1"
+	prop("gapps.prop", "app29")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "sheets_size"), "+", getvar("gsize")));
 endif;
 
 if
-	prop("gapps.prop", "item.1.30")=="1"
+	prop("gapps.prop", "app30")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "slides_size"), "+", getvar("gsize")));
 endif;
 
-#---end of nested
+#-----end of else
 endif;
 
 
@@ -335,7 +649,15 @@ setvar(
 	);
 
 	
-#----Check if it's enough free space for gapps to be installed!
+	
+	
+	
+	
+##############################################
+#
+#Check if it's enough free space for gapps to be installed!
+#
+##############################################
 if
 	cmp(getdiskfree("/system", "m"),">",getvar("gsize"));
 then
@@ -363,7 +685,15 @@ else
 );
 endif;
 
+
+
+
+
+##############################################
+#
 #PreInstall
+#
+##############################################
 ini_set("text_next", "Install GApps");
 viewbox(
 	"Ready to Install",
@@ -373,7 +703,15 @@ viewbox(
 	"@install"
 );
 
+
+
+
+
+##############################################
+#
 #Install
+#
+##############################################
 ini_set("text_next", "Next");
 install(
 	"Installing",
@@ -382,7 +720,15 @@ install(
 	"The installation wizard has successfully installed <b>Google Apps</b>. Press Next to continue."
 );
 
+
+
+
+
+##############################################
+#
 #PostInstall
+#
+##############################################
 ini_set("text_next", "Finish");
 checkviewbox(
 	"Installation Completed",
@@ -393,7 +739,7 @@ checkviewbox(
 	"Reboot your device now.", "0", "reboot_it"
 );
 
-#Reboot
+#Reboot option
 if
 	getvar("reboot_it")=="1"
 then

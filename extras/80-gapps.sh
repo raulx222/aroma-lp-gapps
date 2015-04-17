@@ -47,7 +47,23 @@ case "$1" in
     done
   ;;
   pre-backup)
-    # Stub
+	[[ -d /system/app/Chrome && ! -d /system/app/Browser ]] && browser="1"
+	
+	[[ -d /system/app/Gmail2 && ! -d /system/app/Email ]] && email="1"
+	
+	[[ -d /system/app/Messenger && ! -d /system/priv-app/Mms ]] && mms="1"
+	
+	[[ -d /system/app/GoogleTTS && ! -d /system/app/PicoTts ]] && tts="1"
+	
+	[[ -d /system/app/Keyboard && ! -d /system/app/LatinIME ]] && keyboard="1"
+	
+	[[ -d /system/app/CalendarGoogle && ! -d /system/app/Calendar ]] && calendar="1"
+	
+	[ -d /system/app/CameraGoogle ] && ! [[ -d /system/app/Camera2 || -d /system/app/OpenCamera || -d /system/app/ABCamera ]] && camera="1"
+	
+	[[ -d /system/app/GoogleHome && ! -d /system/priv-app/Trebuchet ]] && launcher="1"
+	
+	[[ -d /system/app/Music2 && ! -d /system/app/Eleven ]] && music="1"
   ;;
   post-backup)
     # Stub
@@ -56,6 +72,26 @@ case "$1" in
     # Stub
   ;;
   post-restore)
-    # Stub
+	[ browser -eq 1 ] && rm -rf /system/app/Browser
+	
+	[ email -eq 1 ] && rm -rf /system/app/Email
+	
+	[ mms -eq 1 ] && rm -rf /system/priv-app/Mms
+	
+	[ tts -eq 1 ] && rm -rf /system/app/PicoTts && rm -rf /system/priv-app/PicoTts && rm -rf /system/lib/libttscompat.so && rm -rf /system/lib/libttspico.so
+	
+	[ keyboard -eq 1 ] && rm -rf /system/app/LatinIME
+	
+	[ calendar -eq 1 ] && rm -rf /system/app/Calendar
+	
+	[ camera -eq 1 ] && rm -rf /system/app/Camera2
+	
+	[ launcher -eq 1 ] && rm -rf /system/priv-app/Trebuchet
+	
+	[ music -eq 1 ] && rm -rf /system/app/Eleven
+	
+   for i in /system/app /system/priv-app /system/vendor/pittpatt /system/usr/srec; do
+        find $i -type d | xargs rmdir -p --ignore-fail-on-non-empty;
+   done
   ;;
 esac

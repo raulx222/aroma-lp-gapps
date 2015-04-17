@@ -6,6 +6,6 @@
 
 	xcopy %COPYSTRUCTURE% %STRUCTURE% /S
 	
-	ant -buildfile build_5.0.xml
+	call ant -buildfile build_5.0.xml
 	
     pause

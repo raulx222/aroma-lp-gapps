@@ -77,14 +77,13 @@
 	<antcall target="values" />
 
     <!-- generate backup script --> 
-    <fileset id="item.file" dir="${work.dir}/system" includes="**/*.*" />
+    <fileset id="item.file" dir="${work.dir}/system" includes="**/*" />
     <pathconvert refid="item.file" property="file.list.aroma" pathsep="&#10;" dirsep="/">
         <map from="${work.dir}/system/" to=''/>
     </pathconvert>
     <copy todir="${work.dir}/system/addon.d">
         <fileset dir="${app.dir}/extras">
 			<include name="80-gapps.sh"/>
-			<include name="80-gapps_rmstockapps.sh"/>
 		</fileset>
         <filterchain>
           <replaceregex pattern="@file.list@" replace="${file.list.aroma}" flags="i"/>
@@ -129,7 +128,8 @@
 		def youtube_size = new File('structure/system/app/YouTube').directorySize()
 		def chrome_size = new File('structure/system/app/Chrome').directorySize()
 		def gmail_size = new File('structure/system/app/Gmail2').directorySize()
-		def hangouts_size = new File('structure/system/app/Hangouts').directorySize() + new File('structure/system/app/HangoutsDialer').directorySize()
+		def hangouts_size = new File('structure/system/app/Hangouts').directorySize()
+		def hangoutsdialer_size =  new File('structure/system/app/HangoutsDialer').directorySize()
 		def talkback_size = new File('structure/system/priv-app/talkback').directorySize()
 		def facelock_size = new File('structure/optional').directorySize()
 		def messenger_size = new File('structure/system/app/Messenger').directorySize()
@@ -162,6 +162,7 @@
 		w.println "chrome_size=${chrome_size}"
 		w.println "gmail_size=${gmail_size}"
 		w.println "hangouts_size=${hangouts_size}"
+		w.println "hangoutsdialer_size=${hangoutsdialer_size}"
 		w.println "talkback_size=${talkback_size}"
 		w.println "facelock_size=${facelock_size}"
 		w.println "messenger_size=${messenger_size}"
