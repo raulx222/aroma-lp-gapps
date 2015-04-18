@@ -4,7 +4,7 @@ ui_print("AROMA");
 ui_print(" ");
 ui_print("For support and updates visit the official thread on XDA! ( bit.ly/lpgapps )");
 ui_print(" ");
-
++assert(getprop("ro.build.version.sdk") >= "21" || abort("This package is for version: 5.0.1 or later"););
 set_progress(0.1);
 ui_print("-> Mounting system...");
 run_program("/sbin/busybox", "mount", "/system");
