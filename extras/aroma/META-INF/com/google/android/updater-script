@@ -45,7 +45,7 @@ delete(
 
 #-----Stock apps replace
 
-ui_print("-> Removing some stock apps(if selected)...");
+ui_print("-> Removing some stock apps which will be replaced by GApps(if selected)...");
 if
   file_getprop("/tmp/aroma/gapps.prop", "app1") == "1"
   then
@@ -63,7 +63,7 @@ if
 		file_getprop("/tmp/aroma/gapps.prop", "gapp2") == "1"
 	then
 		ui_print("	-> Removing stock app: Email");
-		delete_recursive("/system/app/Email");
+		delete_recursive("/system/app/Email", "/system/app/Exchange2");
 	endif;
 endif;
 if
@@ -73,7 +73,7 @@ if
 		file_getprop("/tmp/aroma/gapps.prop", "gapp3") == "1"
 	then
 		ui_print("	-> Removing stock app: MMS");
-		delete_recursive("/system/priv-app/Mms");
+		delete_recursive("/system/priv-app/Mms", "/system/priv-app/MmsService");
 	endif;
 endif;
 if
@@ -122,8 +122,8 @@ if
 	if
 		file_getprop("/tmp/aroma/gapps.prop", "gapp8") == "1"
 	then
-		ui_print("	-> Removing stock app: Trebuchet");
-		delete_recursive("/system/priv-app/Trebuchet");
+		ui_print("	-> Removing stock app: Launcher");
+		delete_recursive("/system/priv-app/Trebuchet", "/system/app/Launcher3");
 	endif;
 endif;
 if
@@ -132,10 +132,145 @@ if
 	if
 		file_getprop("/tmp/aroma/gapps.prop", "gapp9") == "1"
 	then
-		ui_print("	-> Removing stock app: Eleven");
+		ui_print("	-> Removing stock app: Music Player");
 		delete_recursive("/system/app/Eleven");
 	endif;
 endif;
+
+
+
+
+
+ui_print("-> Removing selected stock apps(if selected)...");
+
+if
+  file_getprop("/tmp/aroma/rem.prop", "rem1") == "1"
+  then
+		ui_print("	-> Removing: BasicDreams");
+		delete_recursive("/system/app/BasicDreams");
+endif;
+if
+  file_getprop("/tmp/aroma/rem.prop", "rem2") == "1"
+  then
+		ui_print("	-> Removing: Browser");
+		delete_recursive("/system/app/Browser");
+endif;
+if
+  file_getprop("/tmp/aroma/rem.prop", "rem3") == "1"
+  then
+		ui_print("	-> Removing: Camera2");
+		delete_recursive("/system/app/Camera2");
+endif;
+if
+  file_getprop("/tmp/aroma/rem.prop", "rem4") == "1"
+  then
+		ui_print("	-> Removing: Calendar");
+		delete_recursive("/system/app/Calendar");
+endif;
+if
+  file_getprop("/tmp/aroma/rem.prop", "rem5") == "1"
+  then
+		ui_print("	-> Removing: CellBroadcastReceiver");
+		delete_recursive("/system/app/CellBroadcastReceiver", "/system/priv-app/CellBroadcastReceiver");
+endif;
+if
+  file_getprop("/tmp/aroma/rem.prop", "rem6") == "1"
+  then
+		ui_print("	-> Removing: CMFileManager");
+		delete_recursive("/system/app/CMFileManager");
+endif;
+if
+  file_getprop("/tmp/aroma/rem.prop", "rem7") == "1"
+  then
+		ui_print("	-> Removing: AudioFX");
+		delete_recursive("/system/app/AudioFX");
+endif;
+if
+  file_getprop("/tmp/aroma/rem.prop", "rem8") == "1"
+  then
+		ui_print("	-> Removing: CMWallpapers");
+		delete_recursive("/system/app/CMWallpapers");
+endif;
+if
+  file_getprop("/tmp/aroma/rem.prop", "rem9") == "1"
+  then
+		ui_print("	-> Removing: DeskClock");
+		delete_recursive("/system/app/DeskClock");
+endif;
+if
+  file_getprop("/tmp/aroma/rem.prop", "rem10") == "1"
+  then
+		ui_print("	-> Removing: Eleven");
+		delete_recursive("/system/app/Eleven");
+endif;
+if
+  file_getprop("/tmp/aroma/rem.prop", "rem11") == "1"
+  then
+		ui_print("	-> Removing: Email");
+		delete_recursive("/system/app/Email");
+endif;
+if
+  file_getprop("/tmp/aroma/rem.prop", "rem12") == "1"
+  then
+		ui_print("	-> Removing: Exchange2");
+		delete_recursive("/system/app/Exchange2");
+endif;
+if
+  file_getprop("/tmp/aroma/rem.prop", "rem13") == "1"
+  then
+		ui_print("	-> Removing: Galaxy4");
+		delete_recursive("/system/app/Galaxy4");
+endif;
+if
+  file_getprop("/tmp/aroma/rem.prop", "rem14") == "1"
+  then
+		ui_print("	-> Removing: HoloSpiralWallpaper");
+		delete_recursive("/system/app/HoloSpiralWallpaper");
+endif;
+if
+  file_getprop("/tmp/aroma/rem.prop", "rem15") == "1"
+  then
+		ui_print("	-> Removing: LiveWallpapers");
+		delete_recursive("/system/app/LiveWallpapers");
+endif;
+if
+  file_getprop("/tmp/aroma/rem.prop", "rem16") == "1"
+  then
+		ui_print("	-> Removing: NoiseField");
+		delete_recursive("/system/app/NoiseField");
+endif;
+if
+  file_getprop("/tmp/aroma/rem.prop", "rem17") == "1"
+  then
+		ui_print("	-> Removing: PhaseBeam");
+		delete_recursive("/system/app/PhaseBeam");
+endif;
+if
+  file_getprop("/tmp/aroma/rem.prop", "rem18") == "1"
+  then
+		ui_print("	-> Removing: PhotoPhase");
+		delete_recursive("/system/app/PhotoPhase");
+endif;
+if
+  file_getprop("/tmp/aroma/rem.prop", "rem19") == "1"
+  then
+		ui_print("	-> Removing: PhotoTable");
+		delete_recursive("/system/app/PhotoTable");
+endif;
+if
+  file_getprop("/tmp/aroma/rem.prop", "rem20") == "1"
+  then
+		ui_print("	-> Removing: VisualizationWallpapers");
+		delete_recursive("/system/app/VisualizationWallpapers");
+endif;
+if
+  file_getprop("/tmp/aroma/rem.prop", "rem21") == "1"
+  then
+		ui_print("	-> Removing: WhisperPush");
+		delete_recursive("/system/app/WhisperPush");
+endif;
+
+
 
 
 ui_print("-> Installing GApps...");
@@ -331,217 +466,55 @@ set_perm(0, 0, 0755, "/system/addon.d/80-gapps.sh");
 
 
 #----------Protection script
+delete("/tmp/protection.prop"); #delete the protection script generated by aroma installer
 ui_print("-> Execute protection script...");
 package_extract_file("protection.sh", "/tmp/protection.sh");
 set_perm(0, 0, 0777, "/tmp/protection.sh");
-run_program("/tmp/protection.sh", "");
+run_program("/tmp/protection.sh", "updater-script");
 
-if
-	file_getprop("/tmp/aroma/gapps.prop", "protection") == "1"
-then
-#If protection script enabled
+
 #Check if at least one app from a certain type is installed. If not, force install the Google app counterpart.
+
 	if
-		file_getprop("/tmp/aroma/gapps.prop", "app1") == "0"
-	then
-		if
-			file_getprop("/tmp/protection.prop", "browser") == "0"
+			file_getprop("/tmp/protection.prop", "keyboard") == "0"
 		then
-			ui_print("	-> Force install: Chrome");
-			package_extract_dir("system/app/Chrome", "/system/app/Chrome");
-		endif;
+			ui_print("	-> Force install: Google Keyboard");
+			package_extract_dir("system/app/Keyboard", "/system/app/Keyboard");
+			package_extract_dir("system/usr/srec/en-US", "/system/usr/srec/en-US");
+	endif;
+	
+	if
+			file_getprop("/tmp/protection.prop", "launcher") == "0"
+		then
+			ui_print("	-> Force install: Google Now Launcher");
+			package_extract_dir("system/app/GoogleHome", "/system/app/GoogleHome");
 	endif;
 
 	if
-		file_getprop("/tmp/aroma/gapps.prop", "app2") == "0"
-	then
-		if
-			file_getprop("/tmp/protection.prop", "email") == "0"
+			file_getprop("/tmp/protection.prop", "tts") == "0"
 		then
-			ui_print("	-> Force install: Gmail");
-			package_extract_dir("system/app/Gmail2", "/system/app/Gmail2");
-		endif;
+			ui_print("	-> Force install: GoogleTTS");
+			package_extract_dir("system/app/GoogleTTS", "/system/app/GoogleTTS");
+			package_extract_dir("system/tts", "/system/tts");
 	endif;
 
 	if
-		file_getprop("/tmp/aroma/gapps.prop", "app3") == "0"
-	then
-		if
 			file_getprop("/tmp/protection.prop", "mms") == "0"
 		then
 			ui_print("	-> Force install: Messenger");
 			package_extract_dir("system/app/Messenger", "/system/app/Messenger");
-		endif;
 	endif;
 	
 	if
-		file_getprop("/tmp/aroma/gapps.prop", "app4") == "0"
-	then
-		if
-			file_getprop("/tmp/protection.prop", "picotts") == "0"
-		then
-			ui_print("	-> Force install: GoogleTTS");
-			package_extract_dir("system/app/GoogleTTS", "/system/app/GoogleTTS");
-			package_extract_dir("system/tts", "/system/tts");
-		endif;
-	endif;
-
-	if
-		file_getprop("/tmp/aroma/gapps.prop", "app6") == "0"
-	then
-		if
-			file_getprop("/tmp/protection.prop", "latinime") == "0"
-		then
-			ui_print("	-> Force install: Google Keyboard");
-			package_extract_dir("system/app/Keyboard", "/system/app/Keyboard");
-			package_extract_dir("system/usr/srec/en-US", "/system/usr/srec/en-US");
-		endif;
-	endif;
-	
-	if
-		file_getprop("/tmp/aroma/gapps.prop", "app5") == "0"
-	then
-		if
-			file_getprop("/tmp/protection.prop", "calendar") == "0"
-		then
-			ui_print("	-> Force install: Google Calendar");
-			package_extract_dir("system/app/CalendarGoogle", "/system/app/CalendarGoogle");
-		endif;
-	endif;
-	
-	if
-		file_getprop("/tmp/aroma/gapps.prop", "app7") == "0"
-	then
-		if
 			file_getprop("/tmp/protection.prop", "camera") == "0"
 		then
-			ui_print("	-> Force install: Google Camera");
-			package_extract_dir("system/app/CameraGoogle", "/system/app/CameraGoogle");
-		endif;
-	endif;
-	
-	if
-		file_getprop("/tmp/aroma/gapps.prop", "app8") == "0"
-	then
-		if
-			file_getprop("/tmp/protection.prop", "launcher") == "0"
-		then
-			ui_print("	-> Force install: Google Now Launcher");
-			package_extract_dir("system/app/GoogleHome", "/system/app/GoogleHome");
-		endif;
-	endif;
-	
-	if
-		file_getprop("/tmp/aroma/gapps.prop", "app9") == "0"
-	then
-		if
-			file_getprop("/tmp/protection.prop", "music") == "0"
-		then
-			ui_print("	-> Force install: Google Play Music");
-			package_extract_dir("system/app/Music2", "/system/app/Music2");
-		endif;
+		   if
+				file_getprop("/tmp/aroma/rem.prop", "rem3") == "0" then
+					ui_print("	-> Force install: Google Camera");
+					package_extract_dir("system/app/CameraGoogle", "/system/app/CameraGoogle");
+			endif;
 	endif;
 
-else
-
-	#If protection script disabled
-	
-	if
-		file_getprop("/tmp/aroma/gapps.prop", "app6") == "0"
-	then
-		if
-			file_getprop("/tmp/protection.prop", "latinime") == "0"
-		then
-			ui_print("	-> Force install: Google Keyboard");
-			package_extract_dir("system/app/Keyboard", "/system/app/Keyboard");
-			package_extract_dir("system/usr/srec/en-US", "/system/usr/srec/en-US");
-		endif;
-	endif;
-	
-	if
-		file_getprop("/tmp/aroma/gapps.prop", "app8") == "0"
-	then
-		if
-			file_getprop("/tmp/protection.prop", "launcher") == "0"
-		then
-			ui_print("	-> Force install: Google Now Launcher");
-			package_extract_dir("system/app/GoogleHome", "/system/app/GoogleHome");
-		endif;
-	endif;
-	if
-	
-		file_getprop("/tmp/aroma/gapps.prop", "app4") == "0"
-	then
-		if
-			file_getprop("/tmp/protection.prop", "picotts") == "0"
-		then
-			ui_print("	-> Force install: GoogleTTS");
-			package_extract_dir("system/app/GoogleTTS", "/system/app/GoogleTTS");
-			package_extract_dir("system/tts", "/system/tts");
-		endif;
-	endif;
-	
-	if
-		file_getprop("/tmp/aroma/gapps.prop", "app1") == "0"
-	then
-		if
-			file_getprop("/tmp/protection.prop", "browser") == "0"
-		then
-			ui_print("	-> Can't find app: Browser");
-		endif;
-	endif;
-
-	if
-		file_getprop("/tmp/aroma/gapps.prop", "app2") == "0"
-	then
-		if
-			file_getprop("/tmp/protection.prop", "email") == "0"
-		then
-			ui_print("	-> Can't find app: Email");
-		endif;
-	endif;
-
-	if
-		file_getprop("/tmp/aroma/gapps.prop", "app3") == "0"
-	then
-		if
-			file_getprop("/tmp/protection.prop", "mms") == "0"
-		then
-			ui_print("	-> Can't find app: MMS");
-		endif;
-	endif;
-	
-	if
-		file_getprop("/tmp/aroma/gapps.prop", "app5") == "0"
-	then
-		if
-			file_getprop("/tmp/protection.prop", "calendar") == "0"
-		then
-			ui_print("	-> Can't find app: Calendar");
-		endif;
-	endif;
-	
-	if
-		file_getprop("/tmp/aroma/gapps.prop", "app7") == "0"
-	then
-		if
-			file_getprop("/tmp/protection.prop", "camera") == "0"
-		then
-			ui_print("	-> Can't find app: Camera");
-		endif;
-	endif;
-	
-	if
-		file_getprop("/tmp/aroma/gapps.prop", "app9") == "0"
-	then
-		if
-			file_getprop("/tmp/protection.prop", "music") == "0"
-		then
-			ui_print("	-> Can't find app: Eleven");
-		endif;
-	endif;
-
-endif;
 delete("/tmp/protection.sh", "/tmp/protection.prop");
 
 set_progress(0.9);

@@ -1,5 +1,5 @@
 	set STRUCTURE="structure"
-	set COPYSTRUCTURE="D:\Github\slimlp_gapps\structure"
+	set COPYSTRUCTURE="D:\GApps\structure"
 	echo y|rmdir %STRUCTURE% /s
 	
     mkdir %STRUCTURE%

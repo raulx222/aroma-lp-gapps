@@ -158,7 +158,7 @@ textbox(
 
 form(
     "Apps",
-    "Install complete GApps package",
+    "Replace stock apps or keep them",
     "@default",
     "allgapps.prop",
   #
@@ -174,31 +174,31 @@ form(
   # PROP ID     | TITLE            |  SUBTITLE                                   |    Type       #
   #-------------+--------+-------------------------------------------------------+---------------#	
     "gapp1",     "Stock Browser",        "",                                         "group",
-      "app1",     "<b>Replace Browser</b>",       "Replace Browser with Chrome",                      "check",
+      "app1",     "<b>Replace stock Browser</b>",       "Replace with: Chrome",                      "check",
       
     "gapp2",     "Stock Email",        "",                                         "group",
-      "app2",     "<b>Replace Email</b>",       "Replace Email with Gmail",                      "check",
+      "app2",     "<b>Replace stock Email</b>",       "Replace with: Gmail",                      "check",
 
     "gapp3",     "Stock MMS",        "",                                         "group",
-      "app3",     "<b>Replace MMS</b>",       "Replace MMS with Messenger",                      "check",
+      "app3",     "<b>Replace stock MMS</b>",       "Replace with: Messenger",                      "check",
 
     "gapp4",     "Stock TTS",        "",                                         "group",
-      "app4",     "<b>Replace PicoTTS</b>",       "Replace PicoTTS with Google TTS",                      "check",
+      "app4",     "<b>Replace PicoTTS</b>",       "Replace with: Google TTS",                      "check",
 
     "gapp5",     "Stock Calendar",        "",                                         "group",
-      "app5",     "<b>Replace Calendar</b>",       "Replace Calendar with Google Calendar",                      "check",
+      "app5",     "<b>Replace stock Calendar</b>",       "Replace with: Google Calendar",                      "check",
 
     "gapp6",     "Stock Keyboard",        "",                                         "group",
-      "app6",     "<b>Replace LatinIME</b>",       "Replace LatinIME with Google Keyboard",                      "check",
+      "app6",     "<b>Replace stock Keyboard</b>",       "Replace with: Google Keyboard",                      "check",
 	  
     "gapp7",     "Stock Camera",        "",                                         "group",
-      "app7",     "<b>Replace Camera2</b>",       "Replace Camera2 with Google Camera",                      "check",
+      "app7",     "<b>Replace stock Camera</b>",       "Replace with: Google Camera",                      "check",
 
     "gapp8",     "Stock Launcher",        "",                                         "group",
-      "app8",     "<b>Replace Trebuchet</b>",       "Replace Trebuchet with Google Now Launcher",                      "check",
+      "app8",     "<b>Replace stock Launcher</b>",       "Replace with: Google Now Launcher",                      "check",
 
     "gapp9",     "Stock Music Player",        "",                                         "group",
-      "app9",     "<b>Replace Eleven</b>",       "Replace Eleven with Google Play Music",                      "check"
+      "app9",     "<b>Replace stock Music Player</b>",       "Replace with: Google Play Music",                      "check"
 );
 writetmpfile(
 		"gapps.prop",
@@ -242,67 +242,22 @@ writetmpfile(
 		"gapp6="+prop("allgapps.prop", "app6")+"\n"+
 		"gapp7="+prop("allgapps.prop", "app7")+"\n"+
 		"gapp8="+prop("allgapps.prop", "app8")+"\n"+
-		"gapp9="+prop("allgapps.prop", "app9")+"\n"+
-		"protection=1");
+		"gapp9="+prop("allgapps.prop", "app9")+"\n");
 endif;
 
 
 
 ##############################################
 #
-#Choose which apps to install
+#Customized installation
 #
 ##############################################
 if prop("menu.prop","selected")=="1" then
-writetmpfile(
-		"gapps.prop",
-		
-		"app1=0\n"+
-		"app2=0\n"+
-		"app3=0\n"+
-		"app4=0\n"+
-		"app5=0\n"+
-		"app6=0\n"+
-		"app7=0\n"+
-		"app8=0\n"+
-		"app9=0\n"+
-		"app10=0\n"+
-		"app11=0\n"+
-		"app12=0\n"+
-		"app13=0\n"+
-		"app14=0\n"+
-		"app15=0\n"+
-		"app16=0\n"+
-		"app17=0\n"+
-		"app18=0\n"+
-		"app19=0\n"+
-		"app20=0\n"+
-		"app21=0\n"+
-		"app22=0\n"+
-		"app23=0\n"+
-		"app24=0\n"+
-		"app25=0\n"+
-		"app26=0\n"+
-		"app27=0\n"+
-		"app28=0\n"+
-		"app29=0\n"+
-		"app30=0\n"+
-		"app31=0\n"+
-		"gapp1=0\n"+
-		"gapp2=0\n"+
-		"gapp3=0\n"+
-		"gapp4=0\n"+
-		"gapp5=0\n"+
-		"gapp6=0\n"+
-		"gapp7=0\n"+
-		"gapp8=0\n"+
-		"gapp9=0\n"+
-		"protection=1");
 form(
     "Apps",
     "Please select which GApps you want to install",
     "@default",
-    "gapps.prop",
+    "selectgapps.prop",
   #
   # Type:
   #  - group              = Group
@@ -315,24 +270,20 @@ form(
   #-------------+-----------------------[ Selectbox Without Group ]------------------------------#
   # PROP ID     | TITLE            |  SUBTITLE                                   |    Type       #
   #-------------+--------+-------------------------------------------------------+---------------#
-    "protection",     "Protection script",        "",                                         "group",
-      "1",     "Standard protection",       "",                      "select.selected",
-      "0",     "Vital protection",       "Use this if you have trouble with 'Force install'",                      "select",
-
     "gapp1",     "Chrome",        "",                                         "group",
       "app1",     "<b>Install Chrome</b>",       "",                      "check",
-      "0",     "",       "Don't replace Browser",                      "select.selected",
-      "1",     "",       "Replace Browser",                      "select",
+      "0",     "",       "Don't replace stock Browser",                      "select.selected",
+      "1",     "",       "Replace stock Browser",                      "select",
       
     "gapp2",     "Gmail",        "",                                         "group",
       "app2",     "<b>Install Gmail</b>",       "",                      "check",
-      "0",     "",       "Don't replace Email",                      "select.selected",
-      "1",     "",       "Replace Email",                      "select",
+      "0",     "",       "Don't replace stock Email",                      "select.selected",
+      "1",     "",       "Replace stock Email",                      "select",
 
     "gapp3",     "Messenger",        "",                                         "group",
       "app3",     "<b>Install Messenger</b>",       "",                      "check",
-      "0",     "",       "Don't replace MMS",                      "select.selected",
-      "1",     "",       "Replace MMS",                      "select",
+      "0",     "",       "Don't replace stock MMS",                      "select.selected",
+      "1",     "",       "Replace stock MMS",                      "select",
 
     "gapp4",     "Google TTS",        "",                                         "group",
       "app4",     "<b>Install Google TTS</b>",       "",                      "check",
@@ -341,28 +292,28 @@ form(
 
     "gapp5",     "Google Calendar",        "",                                         "group",
       "app5",     "<b>Install Google Calendar</b>",       "",                      "check",
-      "0",     "",       "Don't replace Calendar",                      "select.selected",
-      "1",     "",       "Replace Calendar",                      "select",
+      "0",     "",       "Don't replace stock Calendar",                      "select.selected",
+      "1",     "",       "Replace stock Calendar",                      "select",
 
     "gapp6",     "Google Keyboard",        "",                                         "group",
       "app6",     "<b>Install Google Keyboard</b>",       "",                      "check",
-      "0",     "",       "Don't replace LatinIME",                      "select.selected",
-      "1",     "",       "Replace LatinIME",                      "select",
+      "0",     "",       "Don't replace stock Keyboard",                      "select.selected",
+      "1",     "",       "Replace stock Keyboard",                      "select",
 	  
     "gapp7",     "Google Camera",        "",                                         "group",
       "app7",     "<b>Install Google Camera</b>",       "",                      "check",
-      "0",     "",       "Don't replace Camera2",                      "select.selected",
-      "1",     "",       "Replace Camera2",                      "select",
+      "0",     "",       "Don't replace stock Camera",                      "select.selected",
+      "1",     "",       "Replace stock Camera",                      "select",
 
     "gapp8",     "Google Now Launcher",        "",                                         "group",
       "app8",     "<b>Install Google Now Launcher</b>",       "",                      "check",
-      "0",     "",       "Don't replace Trebuchet",                      "select.selected",
-      "1",     "",       "Replace Trebuchet",                      "select",
+      "0",     "",       "Don't replace stock Launcher",                      "select.selected",
+      "1",     "",       "Replace stock Launcher",                      "select",
 
     "gapp9",     "Google Play Music",        "",                                         "group",
       "app9",     "<b>Install Google Play Music</b>",       "",                      "check",
-      "0",     "",       "Don't replace Eleven",                      "select.selected",
-      "1",     "",       "Replace Eleven",                      "select",
+      "0",     "",       "Don't replace stock Music Player",                      "select.selected",
+      "1",     "",       "Replace stock Music Player",                      "select",
 	  
     "othergapps",     "Other GApps",        "",                                         "group",
       "app10",     "<b>Youtube</b>",       "Install Youtube",                      "check",
@@ -388,9 +339,182 @@ form(
 	  "app29",     "<b>Google Sheets</b>",       "Install Google Sheets",                      "check",
 	  "app30",     "<b>Google Slides</b>",       "Install Google Slides",                      "check"
 );
+writetmpfile(
+		"gapps.prop",
+		
+		"app1="+prop("selectgapps.prop", "app1")+"\n"+
+		"app2="+prop("selectgapps.prop", "app2")+"\n"+
+		"app3="+prop("selectgapps.prop", "app3")+"\n"+
+		"app4="+prop("selectgapps.prop", "app4")+"\n"+
+		"app5="+prop("selectgapps.prop", "app5")+"\n"+
+		"app6="+prop("selectgapps.prop", "app6")+"\n"+
+		"app7="+prop("selectgapps.prop", "app7")+"\n"+
+		"app8="+prop("selectgapps.prop", "app8")+"\n"+
+		"app9="+prop("selectgapps.prop", "app9")+"\n"+
+		"app10="+prop("selectgapps.prop", "app10")+"\n"+
+		"app11="+prop("selectgapps.prop", "app11")+"\n"+
+		"app12="+prop("selectgapps.prop", "app12")+"\n"+
+		"app13="+prop("selectgapps.prop", "app13")+"\n"+
+		"app14="+prop("selectgapps.prop", "app14")+"\n"+
+		"app15="+prop("selectgapps.prop", "app15")+"\n"+
+		"app16="+prop("selectgapps.prop", "app16")+"\n"+
+		"app17="+prop("selectgapps.prop", "app17")+"\n"+
+		"app18="+prop("selectgapps.prop", "app18")+"\n"+
+		"app19="+prop("selectgapps.prop", "app19")+"\n"+
+		"app20="+prop("selectgapps.prop", "app20")+"\n"+
+		"app21="+prop("selectgapps.prop", "app21")+"\n"+
+		"app22="+prop("selectgapps.prop", "app22")+"\n"+
+		"app23="+prop("selectgapps.prop", "app23")+"\n"+
+		"app24="+prop("selectgapps.prop", "app24")+"\n"+
+		"app25="+prop("selectgapps.prop", "app25")+"\n"+
+		"app26="+prop("selectgapps.prop", "app26")+"\n"+
+		"app27="+prop("selectgapps.prop", "app27")+"\n"+
+		"app28="+prop("selectgapps.prop", "app28")+"\n"+
+		"app29="+prop("selectgapps.prop", "app29")+"\n"+
+		"app30="+prop("selectgapps.prop", "app30")+"\n"+
+		"app31="+prop("selectgapps.prop", "app31")+"\n"+
+		"gapp1="+prop("selectgapps.prop", "gapp1")+"\n"+
+		"gapp2="+prop("selectgapps.prop", "gapp2")+"\n"+
+		"gapp3="+prop("selectgapps.prop", "gapp3")+"\n"+
+		"gapp4="+prop("selectgapps.prop", "gapp4")+"\n"+
+		"gapp5="+prop("selectgapps.prop", "gapp5")+"\n"+
+		"gapp6="+prop("selectgapps.prop", "gapp6")+"\n"+
+		"gapp7="+prop("selectgapps.prop", "gapp7")+"\n"+
+		"gapp8="+prop("selectgapps.prop", "gapp8")+"\n"+
+		"gapp9="+prop("selectgapps.prop", "gapp9")+"\n");
 endif;
 
 
+
+
+##############################################
+#
+#Remove stock apps
+#
+##############################################
+form(
+    "Remove stock apps",
+    "If you want to remove some stock apps, choose from the list below:",
+    "@default",
+    "rem.prop",
+  #
+  # Type:
+  #  - group              = Group
+  #  - select             = Select Item
+  #  - select.selected    = Selected Select Item
+  #  - check              = Checkbox Item
+  #  - check.checked      = Checked Checkbox Item
+  #  - hide               = Hidden
+  #
+  #-------------+-----------------------[ Selectbox Without Group ]------------------------------#
+  # PROP ID     | TITLE            |  SUBTITLE                                   |    Type       #
+  #-------------+--------+-------------------------------------------------------+---------------#
+    "remlist",     "Remove stock apps",        "",                                         "group",
+      "rem1",     "BasicDreams",       "CM12/12.1",                      "check",
+      "rem2",     "Browser",       "CM12/12.1",                      "check",
+      "rem3",     "Camera2",       "CM12/12.1",                       "check",
+      "rem4",     "Calendar",       "CM12/12.1",                       "check",
+	  "rem5",     "CellBroadcastReceiver",       "CM12/12.1",                       "check",
+	  "rem6",     "CMFileManager",       "CM12/12.1",                       "check",
+	  "rem7",     "AudioFX",       "CM12/12.1",                       "check",
+	  "rem8",     "CMWallpapers",       "CM12/12.1",                       "check",
+	  "rem9",     "DeskClock",       "CM12/12.1",                       "check",
+	  "rem10",     "Eleven",       "CM12/12.1",                       "check",
+	  "rem11",     "Email",       "CM12/12.1",                       "check",
+	  "rem12",     "Exchange2",       "CM12/12.1",                       "check",
+	  "rem13",     "Galaxy4",       "CM12/12.1",                       "check",
+	  "rem14",     "HoloSpiralWallpaper",       "CM12/12.1",                       "check",
+	  "rem15",     "LiveWallpapers",       "CM12/12.1",                       "check",
+	  "rem16",     "NoiseField",       "CM12/12.1",                       "check",
+	  "rem17",     "PhaseBeam",       "CM12/12.1",                       "check",
+	  "rem18",     "PhotoPhase",       "CM12/12.1",                       "check",
+	  "rem19",     "PhotoTable",       "CM12/12.1",                       "check",
+	  "rem20",     "VisualizationWallpapers",       "CM12/12.1",                       "check",
+	  "rem21",     "WhisperPush",       "CM12/12.1",                       "check"
+);
+
+
+
+
+
+##############################################
+#
+#Execute portection script - it will check if some apps are installed
+#
+##############################################
+run_program("/sbin/busybox", "mount", "/system");
+zipexec("protection.sh", "aroma-config");
+run_program("/sbin/busybox", "umount", "/system");
+textbox(
+		"READ PROTECTION SCRIPT",
+		"TE FUT IN ANUS PANA PLANGI",
+		"@info",
+		read("/tmp/protection.prop")
+	);
+setvar("missingapps", "");
+if
+	file_getprop("/tmp/aroma/gapps.prop", "app1") == "0" then
+	if
+		file_getprop("/tmp/protection.prop", "browser") == "0" then
+		appendvar("missingapps", "Browser\n");
+	endif;
+endif;
+if
+	file_getprop("/tmp/aroma/gapps.prop", "app2") == "0" then
+	if
+		file_getprop("/tmp/protection.prop", "email") == "0" then
+		appendvar("missingapps", "Email\n");
+	endif;
+endif;
+if
+	file_getprop("/tmp/aroma/gapps.prop", "app3") == "0" then
+	if
+		file_getprop("/tmp/protection.prop", "mms") == "0" then
+		appendvar("missingapps", "MMS (will be installed by protection script)\n");
+	endif;
+endif;
+if
+	file_getprop("/tmp/aroma/gapps.prop", "app4") == "0" then
+	if
+		file_getprop("/tmp/protection.prop", "tts") == "0" then
+		appendvar("missingapps", "PicoTTS (will be installed by protection script)\n");
+	endif;
+endif;
+if
+	file_getprop("/tmp/aroma/gapps.prop", "app5") == "0" then
+	if
+		file_getprop("/tmp/protection.prop", "calendar") == "0" then
+		appendvar("missingapps", "Calendar\n");
+	endif;
+endif;
+if
+	file_getprop("/tmp/aroma/gapps.prop", "app6") == "0" then
+	if
+		file_getprop("/tmp/protection.prop", "keyboard") == "0" then
+		appendvar("missingapps", "Keyboard (will be installed by protection script)\n");
+	endif;
+endif;
+if
+	file_getprop("/tmp/aroma/gapps.prop", "app7") == "0" then
+	if
+		file_getprop("/tmp/protection.prop", "camera") == "0" then
+		appendvar("missingapps", "Camera (will be installed by protection script)\n");
+	endif;
+endif;
+if
+	file_getprop("/tmp/aroma/gapps.prop", "app8") == "0" then
+	if
+		file_getprop("/tmp/protection.prop", "launcher") == "0" then
+		appendvar("missingapps", "Launcher (will be installed by protection script)\n");
+	endif;
+endif;
+if
+	file_getprop("/tmp/aroma/gapps.prop", "app9") == "0" then
+	if
+		file_getprop("/tmp/protection.prop", "music") == "0" then
+		appendvar("missingapps", "Music Player\n\n");
+	endif;
+endif;
 
 
 
@@ -498,6 +622,7 @@ if
 	prop("gapps.prop", "app8")=="1"
 then
 	setvar("gsize", cal(zipprop("values.prop", "now_size"), "+", getvar("gsize")));
+	setvar("gsize", cal(zipprop("values.prop", "search_size"), "+", getvar("gsize")));
 endif;
 
 if
@@ -519,9 +644,12 @@ then
 endif;
 
 if
-	prop("gapps.prop", "app15")=="1"
-then
-	setvar("gsize", cal(zipprop("values.prop", "search_size"), "+", getvar("gsize")));
+  prop("gapps.prop", "app8")=="0" then
+	if
+		prop("gapps.prop", "app15")=="1"
+	then
+		setvar("gsize", cal(zipprop("values.prop", "search_size"), "+", getvar("gsize")));
+	endif;
 endif;
 
 if
@@ -645,7 +773,9 @@ setvar(
 		"Name\t\t\t: <b><#scrollbar>" + sysprop("ro.product.name") + "</#></b>\n" +
 		"Manufacturer\t\t: <b><#scrollbar>" + sysprop("ro.product.manufacturer") + "</#></b>\n\n" +
 
-		"System Size\t\t: <b><#scrollbar>" + getdisksize("/system", "m") + " MB(" + getdiskfree("/system", "m") + " MB free)</#></b>\n\n"
+		"System Size\t\t: <b><#scrollbar>" + getdisksize("/system", "m") + " MB(" + getdiskfree("/system", "m") + " MB free)</#></b>\n\n"+
+		"<#FF0000>Missing apps:\n"+
+		getvar("missingapps")+"</#>"
 	);
 
 	

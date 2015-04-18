@@ -47,51 +47,55 @@ case "$1" in
     done
   ;;
   pre-backup)
-	[[ -d /system/app/Chrome && ! -d /system/app/Browser ]] && browser="1"
+	[[ -d /system/app/Chrome && ! -d /system/app/Browser ]] && echo "browser=1" >> /tmp/variables.prop
 	
-	[[ -d /system/app/Gmail2 && ! -d /system/app/Email ]] && email="1"
+	[[ -d /system/app/Gmail2 && ! -d /system/app/Email ]] && echo "email=1"  >> /tmp/variables.prop
 	
-	[[ -d /system/app/Messenger && ! -d /system/priv-app/Mms ]] && mms="1"
+	[[ -d /system/app/Messenger && ! -d /system/priv-app/Mms ]] && echo "mms=1"  >> /tmp/variables.prop
 	
-	[[ -d /system/app/GoogleTTS && ! -d /system/app/PicoTts ]] && tts="1"
+	[[ -d /system/app/GoogleTTS && ! -d /system/app/PicoTts ]] && echo "tts=1"  >> /tmp/variables.prop
 	
-	[[ -d /system/app/Keyboard && ! -d /system/app/LatinIME ]] && keyboard="1"
+	[[ -d /system/app/Keyboard && ! -d /system/app/LatinIME ]] && echo "keyboard=1"  >> /tmp/variables.prop
 	
-	[[ -d /system/app/CalendarGoogle && ! -d /system/app/Calendar ]] && calendar="1"
+	[[ -d /system/app/CalendarGoogle && ! -d /system/app/Calendar ]] && echo "calendar=1"  >> /tmp/variables.prop
 	
-	[ -d /system/app/CameraGoogle ] && ! [[ -d /system/app/Camera2 || -d /system/app/OpenCamera || -d /system/app/ABCamera ]] && camera="1"
+	[ -d /system/app/CameraGoogle ] && ! [[ -d /system/app/Camera2 || -d /system/app/OpenCamera || -d /system/app/ABCamera ]] && echo "camera=1"  >> /tmp/variables.prop
 	
-	[[ -d /system/app/GoogleHome && ! -d /system/priv-app/Trebuchet ]] && launcher="1"
+	[[ -d /system/app/GoogleHome ]] && ! [[ -d /system/priv-app/Trebuchet || -d /system/app/Launcher3 ]] && echo "launcher=1"  >> /tmp/variables.prop
 	
-	[[ -d /system/app/Music2 && ! -d /system/app/Eleven ]] && music="1"
+	[ -d /system/app/Music2 && ! -d /system/app/Eleven ]] && echo "music=1"  >> /tmp/variables.prop
   ;;
   post-backup)
     # Stub
   ;;
   pre-restore)
-    # Stub
-  ;;
-  post-restore)
-	[ browser -eq 1 ] && rm -rf /system/app/Browser
+	. /tmp/variables.prop
 	
-	[ email -eq 1 ] && rm -rf /system/app/Email
+	[ $browser -eq 1 ] && rm -rf /system/app/Browser
 	
-	[ mms -eq 1 ] && rm -rf /system/priv-app/Mms
+	[ $email -eq 1 ] && rm -rf /system/app/Email && rm -rf /system/app/Exchange2
 	
-	[ tts -eq 1 ] && rm -rf /system/app/PicoTts && rm -rf /system/priv-app/PicoTts && rm -rf /system/lib/libttscompat.so && rm -rf /system/lib/libttspico.so
+	[ $mms -eq 1 ] && rm -rf /system/priv-app/Mms && rm -rf /system/priv-app/MmsService
 	
-	[ keyboard -eq 1 ] && rm -rf /system/app/LatinIME
+	[ $tts -eq 1 ] && rm -rf /system/app/PicoTts && rm -rf /system/priv-app/PicoTts && rm -rf /system/lib/libttscompat.so && rm -rf /system/lib/libttspico.so
 	
-	[ calendar -eq 1 ] && rm -rf /system/app/Calendar
+	[ $keyboard -eq 1 ] && rm -rf /system/app/LatinIME
 	
-	[ camera -eq 1 ] && rm -rf /system/app/Camera2
+	[ $calendar -eq 1 ] && rm -rf /system/app/Calendar
 	
-	[ launcher -eq 1 ] && rm -rf /system/priv-app/Trebuchet
+	[ $camera -eq 1 ] && rm -rf /system/app/Camera2
 	
-	[ music -eq 1 ] && rm -rf /system/app/Eleven
+	[ $launcher -eq 1 ] && rm -rf /system/priv-app/Trebuchet
+	
+	[ $music -eq 1 ] && rm -rf /system/app/Eleven
+	
+	rm -rf /tmp/variables.prop
 	
    for i in /system/app /system/priv-app /system/vendor/pittpatt /system/usr/srec; do
         find $i -type d | xargs rmdir -p --ignore-fail-on-non-empty;
    done
+  ;;
+  post-restore)
+	# Stub
   ;;
 esac
