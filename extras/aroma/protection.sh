@@ -21,7 +21,7 @@ case "$1" in
 	[[ -d /system/app/Eleven || -d /system/app/Music2 ]] && echo "music=1" >> /tmp/protection.prop || echo "music=0" >> /tmp/protection.prop
 	;;
 	aroma-config)
-	[ -d /system/app/Browser ] && echo "browser=1" >> /tmp/protection.prop || echo "browser=0" >> /tmp/protection.prop
+	[ -d /system/app/Browser ] && echo "browser=1" > /tmp/protection.prop || echo "browser=0" > /tmp/protection.prop
 	[ -d /system/app/Email ] && echo "email=1" >> /tmp/protection.prop || echo "email=0" >> /tmp/protection.prop
 	[ -d /system/priv-app/Mms ] && echo "mms=1" >> /tmp/protection.prop || echo "mms=0" >> /tmp/protection.prop
 	[ -d /system/app/PicoTts ] && echo "tts=1" >> /tmp/protection.prop || echo "tts=0" >> /tmp/protection.prop

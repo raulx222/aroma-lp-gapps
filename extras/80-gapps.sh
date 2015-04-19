@@ -2,7 +2,7 @@
 # 
 # /system/addon.d/70-gapps.sh
 #
-. /tmp/backuptool.functions
+[[ -f /tmp/backuptool.functions ]] && . /tmp/backuptool.functions
 
 list_files() {
 cat <<EOF
@@ -97,5 +97,14 @@ case "$1" in
   ;;
   post-restore)
 	# Stub
+  ;;
+  remove)
+    for i in `list_files`; do
+      rm -rf /system/$i
+    done;
+
+	for i in /system/app /system/priv-app /system/vendor/pittpatt /system/usr/srec; do
+        find $i -type d | xargs rmdir -p --ignore-fail-on-non-empty;
+   done
   ;;
 esac

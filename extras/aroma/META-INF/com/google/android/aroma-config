@@ -158,7 +158,7 @@ textbox(
 
 form(
     "Apps",
-    "Replace stock apps or keep them",
+    "Replace stock apps or keep them\n<#66FF33>Any removal from this page is protected by the protection script.</#>",
     "@default",
     "allgapps.prop",
   #
@@ -255,7 +255,7 @@ endif;
 if prop("menu.prop","selected")=="1" then
 form(
     "Apps",
-    "Please select which GApps you want to install",
+    "Please select which GApps you want to install\n<#66FF33>Any removal from this page is protected by the protection script.</#>",
     "@default",
     "selectgapps.prop",
   #
@@ -394,7 +394,7 @@ endif;
 ##############################################
 form(
     "Remove stock apps",
-    "If you want to remove some stock apps, choose from the list below:",
+    "If you want to remove some stock apps, choose from the list below:\n<#FF0000>Any removal from this page is unprotected by the protection script(will bypass the protection script).</#>",
     "@default",
     "rem.prop",
   #
@@ -439,24 +439,68 @@ form(
 
 ##############################################
 #
+#Remove old gapps for a more accurate system size
+#
+##############################################
+ini_set("text_next", "System size check");
+checkviewbox(
+	"System size check",
+	"Remove previously installed GApps\n\n\n\n<b>Later in this process previously installed GApps will be removed. Do you want to remove them now for a more accurate system size check?</b>\n\n",
+	"@welcome",
+
+	"Remove now the previously installed GApps.", "1", "remprevgapps"
+);
+if
+		getvar("remprevgapps")=="1" 
+	then
+		run_program("/sbin/busybox", "mount", "/system");
+		zipexec("system/addon.d/80-gapps.sh", "remove");
+		run_program("/sbin/busybox", "umount", "/system");
+endif;
+ini_set("text_next", "Next");
+
+
+
+
+##############################################
+#
 #Execute portection script - it will check if some apps are installed
 #
 ##############################################
 run_program("/sbin/busybox", "mount", "/system");
 zipexec("protection.sh", "aroma-config");
 run_program("/sbin/busybox", "umount", "/system");
-textbox(
-		"READ PROTECTION SCRIPT",
-		"TE FUT IN ANUS PANA PLANGI",
-		"@info",
-		read("/tmp/protection.prop")
-	);
+
 setvar("missingapps", "");
+
+setvar("blbrowser", "hide");
+setvar("blemail", "hide");
+setvar("blmms", "hide");
+setvar("bltts", "hide");
+setvar("blcalendar", "hide");
+setvar("blkeyboard", "hide");
+setvar("blcamera", "hide");
+setvar("bllauncher", "hide");
+setvar("blmusic", "hide");
+
+setvar("blgbrowser", "hide");
+setvar("blgemail", "hide");
+setvar("blgmms", "hide");
+setvar("blgtts", "hide");
+setvar("blgcalendar", "hide");
+setvar("blgkeyboard", "hide");
+setvar("blgcamera", "hide");
+setvar("blglauncher", "hide");
+setvar("blgmusic", "hide");
+
+
 if
 	file_getprop("/tmp/aroma/gapps.prop", "app1") == "0" then
 	if
 		file_getprop("/tmp/protection.prop", "browser") == "0" then
 		appendvar("missingapps", "Browser\n");
+		setvar("blbrowser", "check");
+		setvar("blgbrowser", "group");
 	endif;
 endif;
 if
@@ -464,20 +508,26 @@ if
 	if
 		file_getprop("/tmp/protection.prop", "email") == "0" then
 		appendvar("missingapps", "Email\n");
+		setvar("blemail", "check");
+		setvar("blgemail", "group");
 	endif;
 endif;
 if
 	file_getprop("/tmp/aroma/gapps.prop", "app3") == "0" then
 	if
 		file_getprop("/tmp/protection.prop", "mms") == "0" then
-		appendvar("missingapps", "MMS (will be installed by protection script)\n");
+		appendvar("missingapps", "MMS\n");
+		setvar("blmms", "check");
+		setvar("blgmms", "group");
 	endif;
 endif;
 if
 	file_getprop("/tmp/aroma/gapps.prop", "app4") == "0" then
 	if
 		file_getprop("/tmp/protection.prop", "tts") == "0" then
-		appendvar("missingapps", "PicoTTS (will be installed by protection script)\n");
+		appendvar("missingapps", "PicoTTS\n");
+		setvar("bltts", "check");
+		setvar("blgtts", "group");
 	endif;
 endif;
 if
@@ -485,34 +535,44 @@ if
 	if
 		file_getprop("/tmp/protection.prop", "calendar") == "0" then
 		appendvar("missingapps", "Calendar\n");
+		setvar("blcalendar", "check");
+		setvar("blgcalendar", "group");
 	endif;
 endif;
 if
 	file_getprop("/tmp/aroma/gapps.prop", "app6") == "0" then
 	if
 		file_getprop("/tmp/protection.prop", "keyboard") == "0" then
-		appendvar("missingapps", "Keyboard (will be installed by protection script)\n");
+		appendvar("missingapps", "Keyboard\n");
+		setvar("blkeyboard", "check");
+		setvar("blgkeyboard", "group");
 	endif;
 endif;
 if
 	file_getprop("/tmp/aroma/gapps.prop", "app7") == "0" then
 	if
 		file_getprop("/tmp/protection.prop", "camera") == "0" then
-		appendvar("missingapps", "Camera (will be installed by protection script)\n");
+		appendvar("missingapps", "Camera\n");
+		setvar("blcamera", "check");
+		setvar("blgcamera", "group");
 	endif;
 endif;
 if
 	file_getprop("/tmp/aroma/gapps.prop", "app8") == "0" then
 	if
 		file_getprop("/tmp/protection.prop", "launcher") == "0" then
-		appendvar("missingapps", "Launcher (will be installed by protection script)\n");
+		appendvar("missingapps", "Launcher\n");
+		setvar("bllauncher", "check");
+		setvar("blglauncher", "group");
 	endif;
 endif;
 if
 	file_getprop("/tmp/aroma/gapps.prop", "app9") == "0" then
 	if
 		file_getprop("/tmp/protection.prop", "music") == "0" then
-		appendvar("missingapps", "Music Player\n\n");
+		appendvar("missingapps", "Music Player\n");
+		setvar("blmusic", "check");
+		setvar("blgmusic", "check");
 	endif;
 endif;
 
@@ -526,44 +586,6 @@ endif;
 setvar("gsize", zipprop("values.prop", "coreapps_size"));
 
 
-#---IF "INSTALL ALL" is chosen
-if
-	prop("gapps.prop", "item.2.1")=="1"
-then
-	setvar("gsize", cal(zipprop("values.prop", "youtube_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "chrome_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "gmail_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "hangouts_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "hangoutsdialer_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "talkback_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "facelock_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "messenger_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "nw_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "now_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "tts_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "keyboard_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "music_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "search_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "calendar_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "drive_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "keep_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "maps_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "plus_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "streetview_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "translate_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "wallet_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "books_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "camera_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "cloudprint_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "docs_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "games_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "movies_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "news_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "sheets_size"), "+", getvar("gsize")));
-	setvar("gsize", cal(zipprop("values.prop", "slides_size"), "+", getvar("gsize")));
-else
-
-#-----else
 if
 	prop("gapps.prop", "app10")=="1"
 then
@@ -754,16 +776,98 @@ then
 	setvar("gsize", cal(zipprop("values.prop", "slides_size"), "+", getvar("gsize")));
 endif;
 
-#-----end of else
+#-----forcefully installed apps
+setvar("gsizeforce", "0");
+
+if
+	prop("gapps.prop", "app1") == "0" then
+	if
+		file_getprop("/tmp/protection.prop", "browser") == "0" then
+		setvar("gsizeforce", cal(zipprop("values.prop", "chrome_size"), "+", getvar("gsizeforce")));
+	endif;
+endif;
+if
+	prop("gapps.prop", "app2") == "0" then
+	if
+		file_getprop("/tmp/protection.prop", "browser") == "0" then
+		setvar("gsizeforce", cal(zipprop("values.prop", "gmail_size"), "+", getvar("gsizeforce")));
+	endif;
+endif;
+if
+	prop("gapps.prop", "app3") == "0" then
+	if
+		file_getprop("/tmp/protection.prop", "mms") == "0" then
+		setvar("gsizeforce", cal(zipprop("values.prop", "messenger_size"), "+", getvar("gsizeforce")));
+	endif;
+endif;
+if
+	prop("gapps.prop", "app4") == "0" then
+	if
+		file_getprop("/tmp/protection.prop", "tts") == "0" then
+		setvar("gsizeforce", cal(zipprop("values.prop", "tts_size"), "+", getvar("gsizeforce")));
+	endif;
+endif;
+if
+	prop("gapps.prop", "app5") == "0" then
+	if
+		file_getprop("/tmp/protection.prop", "calendar") == "0" then
+		setvar("gsizeforce", cal(zipprop("values.prop", "calendar_size"), "+", getvar("gsizeforce")));
+	endif;
+endif;
+if
+	prop("gapps.prop", "app6") == "0" then
+	if
+		file_getprop("/tmp/protection.prop", "keyboard") == "0" then
+		setvar("gsizeforce", cal(zipprop("values.prop", "keyboard_size"), "+", getvar("gsizeforce")));
+	endif;
+endif;
+if
+	prop("gapps.prop", "app7") == "0" then
+	if
+		file_getprop("/tmp/protection.prop", "tts") == "0" then
+		setvar("gsizeforce", cal(zipprop("values.prop", "camera_size"), "+", getvar("gsizeforce")));
+	endif;
+endif;
+if
+	prop("gapps.prop", "app8") == "0" then
+	if
+		file_getprop("/tmp/protection.prop", "launcher") == "0" then
+		setvar("gsizeforce", cal(zipprop("values.prop", "now_size"), "+", getvar("gsizeforce")));
+		setvar("gsizeforce", cal(zipprop("values.prop", "search_size"), "+", getvar("gsizeforce")));
+	endif;
+endif;
+if
+	prop("gapps.prop", "app9") == "0" then
+	if
+		file_getprop("/tmp/protection.prop", "music") == "0" then
+		setvar("gsizeforce", cal(zipprop("values.prop", "music_size"), "+", getvar("gsizeforce")));
+	endif;
 endif;
 
+#-----move gsize into a new variable to have a raw value of it
+setvar("gsizeraw", getvar("gsize"));
 
-#-----convert gsize from bytes to MB
+
+#-----add force installed apps to gapps variable
+setvar("gsize", cal(getvar("gsizeforce"), "+", getvar("gsize")));
+
+
+
+#-----convert gsize and gsizeforce and gsizeraw from bytes to MB
 setvar("gsize", cal(getvar("gsize"),"/","1048576"));
+setvar("gsizeforce", cal(getvar("gsizeforce"),"/","1048576"));
+setvar("gsizeraw", cal(getvar("gsizeraw"),"/","1048576"));
 
 #-----add 5mb to gsize
 setvar("gsize", cal(getvar("gsize"),"+","5"));
 
+if
+		getvar("missingapps")=="" 
+	then
+		setvar("missingappsalert", "");
+	else
+		setvar("missingappsalert", "<#FF0000>The following stock apps are missing and you haven't selected their Google counterpart to be installed:"+"\n\n"+getvar("missingapps")+"\n"+"The Google counterpart for these apps will be installed by the protection script. On the next page you will can block the protection script if you want so.\n\n</#>");
+endif;
 
 setvar(
 		"sysinfo",
@@ -774,11 +878,10 @@ setvar(
 		"Manufacturer\t\t: <b><#scrollbar>" + sysprop("ro.product.manufacturer") + "</#></b>\n\n" +
 
 		"System Size\t\t: <b><#scrollbar>" + getdisksize("/system", "m") + " MB(" + getdiskfree("/system", "m") + " MB free)</#></b>\n\n"+
-		"<#FF0000>Missing apps:\n"+
-		getvar("missingapps")+"</#>"
+		getvar("missingappsalert")
+		
 	);
 
-	
 	
 	
 	
@@ -796,7 +899,7 @@ then
 		"Your Device System Information.",
 		"@info",
 		getvar("sysinfo")+ 
-		"<b><#66FF33><u>Space needed\t\t: " + getvar("gsize") + " MB</u> \nGApps: " + cal(getvar("gsize"),"-","5") + " MB + 5 MB for safety</@></#></b>"
+		"<b><#66FF33><u>Space needed\t\t: " + getvar("gsize") + " MB</u> \nGApps: " +getvar("gsizeraw") + " MB " +     "+ "     +getvar("gsizeforce")+    " MB forcefully installed GApps"   +   " + 5 MB for safety</@></#></b>"
 	);
 else
 	agreebox(
@@ -804,7 +907,7 @@ else
 		"Your Device System Information.",
 		"@info",
 		getvar("sysinfo")+
-		"<b><#FF0000><u>Space needed\t\t: " + getvar("gsize") + " MB</u> \nGApps: " + cal(getvar("gsize"),"-","5") + " MB + 5 MB for safety</@></#></b>"+
+		"<b><#FF0000><u>Space needed\t\t: " + getvar("gsize") + " MB</u> \nGApps: " +getvar("gsizeraw") + " MB " +     "+ "     +getvar("gsizeforce")+    " MB forcefully installed GApps"   +   " + 5 MB for safety</@></#></b>"+
 		"\n\n<@center><b><#FF0000>You don't have enough free space to install GApps!\nIf you continue, the installation may have unexpected results.\nAre you sure you want to continue the installation?</#></b></@>",
   
   #-- Checkbox Text
@@ -815,6 +918,72 @@ else
 );
 endif;
 
+
+
+
+
+
+##############################################
+#
+#Block protection script actions
+#
+##############################################
+writetmpfile(
+		"block.prop",
+		"blk1=0\n"+
+		"blk2=0\n"+
+		"blk3=0\n"+
+		"blk4=0\n"+
+		"blk5=0\n"+
+		"blk6=0\n"+
+		"blk7=0\n"+
+		"blk8=0\n"+
+		"blk9=0\n"
+		);
+form(
+    "Here you can block protection script's actions",
+    "Select which action you want to block",
+    "@default",
+    "block.prop",
+  #
+  # Type:
+  #  - group              = Group
+  #  - select             = Select Item
+  #  - select.selected    = Selected Select Item
+  #  - check              = Checkbox Item
+  #  - check.checked      = Checked Checkbox Item
+  #  - hide               = Hidden
+  #
+  #-------------+-----------------------[ Selectbox Without Group ]------------------------------#
+  # PROP ID     | TITLE            |  SUBTITLE                                   |    Type       #
+  #-------------+--------+-------------------------------------------------------+---------------#
+  	"block1",     "Chrome",        "",                                         getvar("blgbrowser"),
+      "blk1",     "<b>Block the forcefully installation of Chrome</b>",       "",                      getvar("blbrowser"),
+	  
+	"block2",     "Gmail",        "",                                         getvar("blgemail"),
+      "blk2",     "<b>Block the forcefully installation of Gmail</b>",       "",                      getvar("blemail"),
+
+    "block3",     "Messenger",        "",                                         getvar("blgmms"),
+      "blk3",     "<b>Block the forcefully installation of Messenger</b>",       "",                      getvar("blmms"),
+
+    "block4",     "Google TTS",        "",                                         getvar("blgtts"),
+      "blk4",     "<b>Block the forcefully installation of Google TTS</b>",       "",                      getvar("bltts"),
+
+	"block5",     "Google Calendar",        "",                                         getvar("blgcalendar"),
+      "blk5",     "<b>Block the forcefully installation of Google Calendar</b>",       "",                      getvar("blcalendar"),
+
+    "block6",     "Google Keyboard",        "",                                         getvar("blgkeyboard"),
+      "blk6",     "<b>Block the forcefully installation of Google Keyboard</b>",       "",                      getvar("blkeyboard"),
+	  
+    "block7",     "Google Camera",        "",                                         getvar("blgcamera"),
+      "blk7",     "<b>Block the forcefully installation of Google Camera</b>",       "",                      getvar("blcamera"),
+
+    "block8",     "Google Now Launcher",        "",                                         getvar("blglauncher"),
+      "blk8",     "<b>Block the forcefully installation of Google Now Launcher</b>",       "",                      getvar("bllauncher"),
+	  
+	"block9",     "Google Play Music",        "",                                         getvar("blgmusic"),
+      "blk9",     "<b>Block the forcefully installation of Google Play Music</b>",       "",                      getvar("blmusic")
+  );
 
 
 
