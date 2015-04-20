@@ -45,6 +45,7 @@ case "$1" in
 	[ ! -d /system/app/PhotoTable ] && echo "phototable=1" >> /tmp/removals.prop
 	[ ! -d /system/app/VisualizationWallpapers ] && echo "visualization=1" >> /tmp/removals.prop
 	[ ! -d /system/app/WhisperPush ] && echo "whisperpush=1" >> /tmp/removals.prop
+	[ ! -d /system/app/Apollo ] && echo "apollo=1" >> /tmp/removals.prop
 
   ;;
   post-backup)
@@ -74,6 +75,7 @@ case "$1" in
 	[ $phototable -eq 1 ] && rm -rf /system/app/PhotoTable
 	[ $visualization -eq 1 ] && rm -rf /system/app/VisualizationWallpapers
 	[ $whisperpush -eq 1 ] && rm -rf /system/app/WhisperPush
+	[ $apollo -eq 1 ] && rm -rf /system/app/Apollo
 	
 	rm -rf /tmp/removals.prop
 	

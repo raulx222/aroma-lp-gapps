@@ -430,7 +430,8 @@ form(
 	  "rem18",     "PhotoPhase",       "CM12/12.1",                       "check",
 	  "rem19",     "PhotoTable",       "CM12/12.1",                       "check",
 	  "rem20",     "VisualizationWallpapers",       "CM12/12.1",                       "check",
-	  "rem21",     "WhisperPush",       "CM12/12.1",                       "check"
+	  "rem21",     "WhisperPush",       "CM12/12.1",                       "check",
+	  "rem22",     "Apollo",       "OMNIROM",                       "check"
 );
 
 
@@ -572,7 +573,7 @@ if
 		file_getprop("/tmp/protection.prop", "music") == "0" then
 		appendvar("missingapps", "Music Player\n");
 		setvar("blmusic", "check");
-		setvar("blgmusic", "check");
+		setvar("blgmusic", "group");
 	endif;
 endif;
 
@@ -940,6 +941,9 @@ writetmpfile(
 		"blk8=0\n"+
 		"blk9=0\n"
 		);
+if
+		getvar("missingapps") != "" 
+	then
 form(
     "Here you can block protection script's actions",
     "Select which action you want to block",
@@ -984,7 +988,7 @@ form(
 	"block9",     "Google Play Music",        "",                                         getvar("blgmusic"),
       "blk9",     "<b>Block the forcefully installation of Google Play Music</b>",       "",                      getvar("blmusic")
   );
-
+endif;
 
 
 

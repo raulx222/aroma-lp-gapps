@@ -111,7 +111,7 @@ if
 		file_getprop("/tmp/aroma/gapps.prop", "gapp9") == "1"
 	then
 		ui_print("	-> Removing stock app: Music Player");
-		delete_recursive("/system/app/Eleven");
+		delete_recursive("/system/app/Eleven", "/system/app/Apollo");
 	endif;
 endif;
 
@@ -549,6 +549,12 @@ if
   then
 		ui_print("	-> Removing: WhisperPush");
 		delete_recursive("/system/app/WhisperPush");
+endif;
+if
+  file_getprop("/tmp/aroma/rem.prop", "rem22") == "1"
+  then
+		ui_print("	-> Removing: Apollo");
+		delete_recursive("/system/app/Apollo");
 endif;
 
 delete("/tmp/protection.sh", "/tmp/protection.prop");

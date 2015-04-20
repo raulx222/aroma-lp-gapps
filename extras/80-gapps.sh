@@ -63,7 +63,7 @@ case "$1" in
 	
 	[[ -d /system/app/GoogleHome ]] && ! [[ -d /system/priv-app/Trebuchet || -d /system/app/Launcher3 ]] && echo "launcher=1"  >> /tmp/variables.prop
 	
-	[ -d /system/app/Music2 && ! -d /system/app/Eleven ]] && echo "music=1"  >> /tmp/variables.prop
+	[[ -d /system/app/Music2 ]] && ! [[ -d /system/app/Eleven || -d /system/app/Apollo ]] && echo "music=1"  >> /tmp/variables.prop
   ;;
   post-backup)
     # Stub
@@ -87,7 +87,7 @@ case "$1" in
 	
 	[ $launcher -eq 1 ] && rm -rf /system/priv-app/Trebuchet
 	
-	[ $music -eq 1 ] && rm -rf /system/app/Eleven
+	[ $music -eq 1 ] && rm -rf /system/app/Eleven && rm -rf /system/app/Apollo
 	
 	rm -rf /tmp/variables.prop
 	
