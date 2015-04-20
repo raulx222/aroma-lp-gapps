@@ -445,7 +445,7 @@ form(
 ini_set("text_next", "System size check");
 checkviewbox(
 	"System size check",
-	"Remove previously installed GApps\n\n\n\n<b>Later in this process previously installed GApps will be removed. Do you want to remove them now for a more accurate system size check?</b>\n\n",
+	"Remove previously installed GApps\n\n\n\n\n<b>Later in this process previously installed GApps will be removed. Do you want to remove them now for a more accurate system size check?</b>\n\n",
 	"@welcome",
 
 	"Remove now the previously installed GApps.", "1", "remprevgapps"
