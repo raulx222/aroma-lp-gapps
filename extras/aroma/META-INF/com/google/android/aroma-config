@@ -431,7 +431,9 @@ form(
 	  "rem19",     "PhotoTable",       "CM12/12.1",                       "check",
 	  "rem20",     "VisualizationWallpapers",       "CM12/12.1",                       "check",
 	  "rem21",     "WhisperPush",       "CM12/12.1",                       "check",
-	  "rem22",     "Apollo",       "OMNIROM",                       "check"
+	  "rem22",     "Apollo",       "OMNIROM",                       "check",
+	  "rem23",     "MMS",       "CM12/12.1",                       "check",
+	  "rem24",     "Gallery",       "CM12/12.1",                       "check"
 );
 
 

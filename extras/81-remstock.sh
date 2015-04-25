@@ -46,7 +46,8 @@ case "$1" in
 	[ ! -d /system/app/VisualizationWallpapers ] && echo "visualization=1" >> /tmp/removals.prop
 	[ ! -d /system/app/WhisperPush ] && echo "whisperpush=1" >> /tmp/removals.prop
 	[ ! -d /system/app/Apollo ] && echo "apollo=1" >> /tmp/removals.prop
-
+	[ ! -d /system/priv-app/Mms ] && echo "mms=1" >> /tmp/removals.prop
+	[ ! -d /system/app/Gallery2 ] && echo "gallery2=1" >> /tmp/removals.prop
   ;;
   post-backup)
     # Stub
@@ -76,6 +77,9 @@ case "$1" in
 	[ $visualization -eq 1 ] && rm -rf /system/app/VisualizationWallpapers
 	[ $whisperpush -eq 1 ] && rm -rf /system/app/WhisperPush
 	[ $apollo -eq 1 ] && rm -rf /system/app/Apollo
+	[ $mms -eq 1 ] && rm -rf /system/priv-app/Mms && rm -rf /system/priv-app/MmsService
+	[ $gallery2 -eq 1 ] && rm -rf /system/app/Gallery2
+	
 	
 	rm -rf /tmp/removals.prop
 	
