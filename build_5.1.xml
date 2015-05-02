@@ -39,6 +39,7 @@
   <property name="sign.jar"                     value="${app.dir}/tools/signapk.jar"/>
   <property name="sign.pem"                     value="${app.dir}/tools/testkey.x509.pem"/>
   <property name="sign.pk8"                     value="${app.dir}/tools/testkey.pk8"/>
+  <property name="extra.dir"                    value="${app.dir}/extras" />
   
   <tstamp>  
     <format property="build.today" pattern="yyyyMMdd" />
@@ -67,18 +68,38 @@
     <copy todir="${work.dir}">
 	     <fileset dir="${structure.dir}">
          <exclude name="META-INF/com/google/android/**"/>
+		 <exclude name="system/etc/g.prop" />
          </fileset>
     </copy>
+	<copy file="${structure.dir}/system/etc/g.prop" tofile="${work.dir}/system/etc/g.prop">
+		<filterchain>
+			<replaceregex pattern="@buildnumber@" replace="gapps-lp-${build.today}" flags="i"/>
+		</filterchain>
+	</copy>
     <copy todir="${work.dir}">
 		<fileset dir="${app.dir}/extras/aroma"/>
 	</copy>
 	<antcall target="values" />
 
     <!-- generate backup script --> 
+	<path id="item.file">
+           <fileset dir="${extra.dir}">
+               <include name="*.sh"/>
+           </fileset>
+           <fileset dir="${structure.dir}/system"/>
+           <fileset dir="${structure.dir}/optional/"/>
+   </path>
+   <pathconvert refid="item.file" property="file.list.aroma" pathsep="&#10;" dirsep="/">
+           <map from="${extra.dir}" to="addon.d"/>
+           <map from="${structure.dir}/system/" to=""/>
+           <map from="${structure.dir}/optional/common/" to=""/>
+           <map from="${structure.dir}/optional/face/" to=""/>
+           <map from="${structure.dir}/optional/hammerhead/" to=""/>
+           <map from="${structure.dir}/optional/manta/" to=""/>
+           <map from="${structure.dir}/optional/shamu/" to=""/>
+           <map from="${structure.dir}/optional/tuna/" to=""/>
+      </pathconvert>
     <fileset id="item.file" dir="${work.dir}/system" includes="**/*" />
-    <pathconvert refid="item.file" property="file.list.aroma" pathsep="&#10;" dirsep="/">
-        <map from="${work.dir}/system/" to=''/>
-    </pathconvert>
     <copy todir="${work.dir}/system/addon.d">
         <fileset dir="${app.dir}/extras">
 			<include name="80-gapps.sh"/>
