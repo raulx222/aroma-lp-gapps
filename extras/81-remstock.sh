@@ -48,6 +48,10 @@ case "$1" in
 	[ ! -d /system/app/Apollo ] && echo "apollo=1" >> /tmp/removals.prop
 	[ ! -d /system/priv-app/Mms ] && echo "mms=1" >> /tmp/removals.prop
 	[ ! -d /system/app/Gallery2 ] && echo "gallery2=1" >> /tmp/removals.prop
+	[ ! -d /system/app/SoundRecorder ] && echo "soundrecorder=1" >> /tmp/removals.prop
+	[ ! -d /system/priv-app/CMUpdater ] && echo "cmupdater=1" >> /tmp/removals.prop
+	[ ! -d /system/priv-app/CMAccount ] && echo "cmaccount=1" >> /tmp/removals.prop
+	[ ! -d /system/priv-app/CMBugReport ] && echo "cmbugreport=1" >> /tmp/removals.prop
   ;;
   post-backup)
     # Stub
@@ -79,6 +83,10 @@ case "$1" in
 	[ $apollo -eq 1 ] && rm -rf /system/app/Apollo
 	[ $mms -eq 1 ] && rm -rf /system/priv-app/Mms && rm -rf /system/priv-app/MmsService
 	[ $gallery2 -eq 1 ] && rm -rf /system/app/Gallery2
+	[ $soundrecorder -eq 1 ] && rm -rf /system/app/SoundRecorder
+	[ $cmupdater -eq 1 ] && rm -rf /system/priv-app/CMUpdater
+	[ $cmaccount -eq 1 ] && rm -rf /system/priv-app/CMAccount
+	[ $cmbugreport -eq 1 ] && rm -rf /system/priv-app/CMBugReport
 	
 	
 	rm -rf /tmp/removals.prop

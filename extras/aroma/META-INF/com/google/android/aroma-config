@@ -4,6 +4,7 @@ ini_set("rom_author", "raulx222");
 ini_set("rom_device", "Any!");
 ini_set("rom_date", zipprop("values.prop", "build_date"));
 ini_set("text_quit", "Exit");
+ini_set("text_next", "Next");
 
 ##############################################
 #
@@ -114,6 +115,33 @@ if prop("menu.prop", "selected")=="3" then
 	back("1");
 endif;
 
+##############################################
+#
+#Load selections from previous installation
+#
+##############################################
+checkviewbox(
+	"Load selections",
+	"Load selections from the previous installation\n\n\n\n\n<b>Do you want to load the selections from the previous installation?</b>\n\n",
+	"@welcome",
+
+	"Load selections.", "1", "loadselections"
+);
+
+if
+		getvar("loadselections")=="1" 
+	then
+		zipexec("tools.sh", "load");
+		setvar("reset", "1");
+	else
+		if
+			getvar("reset")=="1" then
+				zipexec("tools.sh", "reset");
+				setvar("reset","0");
+		endif;
+endif;
+
+
 if prop("menu.prop","selected")=="2" then
 textbox(
     "Apps",
@@ -160,7 +188,7 @@ form(
     "Apps",
     "Replace stock apps or keep them\n<#66FF33>Any removal from this page is protected by the protection script.</#>",
     "@default",
-    "allgapps.prop",
+    allgapps.prop,
   #
   # Type:
   #  - group              = Group
@@ -173,6 +201,9 @@ form(
   #-------------+-----------------------[ Selectbox Without Group ]------------------------------#
   # PROP ID     | TITLE            |  SUBTITLE                                   |    Type       #
   #-------------+--------+-------------------------------------------------------+---------------#	
+    "multi_dpi_group",     "MULTI-DPI",        "",                                         "group",
+      multi_dpi,     "<b>Install MULTI-DPI mod</b>",       zipprop("values.prop", "multi_dpi_desc"),                      zipprop("values.prop", "multi_dpi"),
+
     "gapp1",     "Stock Browser",        "",                                         "group",
       "app1",     "<b>Replace stock Browser</b>",       "Replace with: Chrome",                      "check",
       
@@ -203,6 +234,7 @@ form(
 writetmpfile(
 		"gapps.prop",
 		
+		"multi_dpi="+prop("allgapps.prop", "multi_dpi")+"\n"+
 		"app1=1\n"+
 		"app2=1\n"+
 		"app3=1\n"+
@@ -247,17 +279,21 @@ endif;
 
 
 
+
+
 ##############################################
 #
 #Customized installation
 #
 ##############################################
 if prop("menu.prop","selected")=="1" then
+
+
 form(
     "Apps",
     "Please select which GApps you want to install\n<#66FF33>Any removal from this page is protected by the protection script.</#>",
     "@default",
-    "selectgapps.prop",
+    selectgapps.prop,
   #
   # Type:
   #  - group              = Group
@@ -270,6 +306,9 @@ form(
   #-------------+-----------------------[ Selectbox Without Group ]------------------------------#
   # PROP ID     | TITLE            |  SUBTITLE                                   |    Type       #
   #-------------+--------+-------------------------------------------------------+---------------#
+    "multi_dpi_group",     "MULTI-DPI",        "",                                         "group",
+      multi_dpi,     "<b>Install MULTI-DPI mod</b>",       zipprop("values.prop", "multi_dpi_desc"),                      zipprop("values.prop", "multi_dpi"),
+
     "gapp1",     "Chrome",        "",                                         "group",
       "app1",     "<b>Install Chrome</b>",       "",                      "check",
       "0",     "",       "Don't replace stock Browser",                      "select.selected",
@@ -342,6 +381,7 @@ form(
 writetmpfile(
 		"gapps.prop",
 		
+		"multi_dpi="+prop("selectgapps.prop", "multi_dpi")+"\n"+
 		"app1="+prop("selectgapps.prop", "app1")+"\n"+
 		"app2="+prop("selectgapps.prop", "app2")+"\n"+
 		"app3="+prop("selectgapps.prop", "app3")+"\n"+
@@ -382,6 +422,7 @@ writetmpfile(
 		"gapp7="+prop("selectgapps.prop", "gapp7")+"\n"+
 		"gapp8="+prop("selectgapps.prop", "gapp8")+"\n"+
 		"gapp9="+prop("selectgapps.prop", "gapp9")+"\n");
+
 endif;
 
 
@@ -396,7 +437,7 @@ form(
     "Remove stock apps",
     "If you want to remove some stock apps, choose from the list below:\n<#FF0000>Any removal from this page is unprotected by the protection script(will bypass the protection script).</#>",
     "@default",
-    "rem.prop",
+    rem.prop,
   #
   # Type:
   #  - group              = Group
@@ -433,11 +474,30 @@ form(
 	  "rem21",     "WhisperPush",       "CM12/12.1",                       "check",
 	  "rem22",     "Apollo",       "OMNIROM",                       "check",
 	  "rem23",     "MMS",       "CM12/12.1",                       "check",
-	  "rem24",     "Gallery",       "CM12/12.1",                       "check"
+	  "rem24",     "Gallery",       "CM12/12.1",                       "check",
+	  "rem25",     "SoundRecorder",       "CM12/12.1",                       "check",
+	  "rem26",     "CMUpdater",       "CM12/12.1\nRemove with caution! You will no longer get CM ota updates.",                       "check",
+	  "rem27",     "CMAccount",       "CM12/12.1",                       "check",
+	  "rem28",     "CMBugReport",       "CM12/12.1",                       "check"
 );
 
+##############################################
+#
+#Save selections
+#
+##############################################
+checkviewbox(
+	"Save selections",
+	"Save selections on sdcard(or emualted storage)\n\n\n\n\n<b>Do you want to save the selections on sdcard? They will save time in future installations.</b>\n\n",
+	"@welcome",
 
-
+	"Save selections.", "1", "saveselections"
+);
+if
+		getvar("saveselections")=="1" 
+	then
+		zipexec("tools.sh", "save");
+endif;
 
 
 ##############################################
@@ -448,7 +508,7 @@ form(
 ini_set("text_next", "System size check");
 checkviewbox(
 	"System size check",
-	"Remove previously installed GApps\n\n\n\n\n<b>Later in this process previously installed GApps will be removed. Do you want to remove them now for a more accurate system size check?</b>\n\n",
+	"Remove previously installed GApps()\n\n\n\n\n<b>Later in this process previously installed GApps will be removed(if they are found). Do you want to remove them now for a more accurate system size check?</b>\n\n",
 	"@welcome",
 
 	"Remove now the previously installed GApps.", "1", "remprevgapps"
@@ -457,7 +517,7 @@ if
 		getvar("remprevgapps")=="1" 
 	then
 		run_program("/sbin/busybox", "mount", "/system");
-		zipexec("system/addon.d/80-gapps.sh", "remove");
+		zipexec("tools.sh", "remove");
 		run_program("/sbin/busybox", "umount", "/system");
 endif;
 ini_set("text_next", "Next");

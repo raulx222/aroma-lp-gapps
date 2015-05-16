@@ -34,6 +34,7 @@
   <property name="app.name"                     value="buildGapps"/>
   <property name="app.dir"                      value="${basedir}"/>
   <property name="work.dir"                     value="${app.dir}/work"/>
+  <property name="addons.dir"                     value="${app.dir}/addons"/>
   <property name="build.dir"                    value="${app.dir}/build_5.0"/>
   <property name="structure.dir"                value="${app.dir}/structure"/>
   <property name="sign.jar"                     value="${app.dir}/tools/signapk.jar"/>
@@ -68,38 +69,27 @@
     <copy todir="${work.dir}">
 	     <fileset dir="${structure.dir}">
          <exclude name="META-INF/com/google/android/**"/>
-		 <exclude name="system/etc/g.prop" />
          </fileset>
     </copy>
-	<copy file="${structure.dir}/system/etc/g.prop" tofile="${work.dir}/system/etc/g.prop">
-		<filterchain>
-			<replaceregex pattern="@buildnumber@" replace="gapps-lp-${build.today}" flags="i"/>
-		</filterchain>
-	</copy>
     <copy todir="${work.dir}">
 		<fileset dir="${app.dir}/extras/aroma"/>
 	</copy>
+    <copy todir="${work.dir}">
+	     <fileset dir="${addons.dir}"/>
+    </copy>
+	<copy file="${app.dir}/extras/g.prop" todir="${work.dir}/system/etc">
+            <filterchain>
+                <replaceregex pattern="@build.version@" replace="slim.aroma.${build.today}" flags="i"/>
+                <replaceregex pattern="@min.version@" replace="${5.0_PRODUCT_VERSION_MAJOR}" flags="i"/>
+            </filterchain>
+    </copy>
 	<antcall target="values" />
 
-    <!-- generate backup script --> 
-	<path id="item.file">
-           <fileset dir="${extra.dir}">
-               <include name="*.sh"/>
-           </fileset>
-           <fileset dir="${structure.dir}/system"/>
-           <fileset dir="${structure.dir}/optional/"/>
-   </path>
-   <pathconvert refid="item.file" property="file.list.aroma" pathsep="&#10;" dirsep="/">
-           <map from="${extra.dir}" to="addon.d"/>
-           <map from="${structure.dir}/system/" to=""/>
-           <map from="${structure.dir}/optional/common/" to=""/>
-           <map from="${structure.dir}/optional/face/" to=""/>
-           <map from="${structure.dir}/optional/hammerhead/" to=""/>
-           <map from="${structure.dir}/optional/manta/" to=""/>
-           <map from="${structure.dir}/optional/shamu/" to=""/>
-           <map from="${structure.dir}/optional/tuna/" to=""/>
-      </pathconvert>
+    <!-- generate backup script -->
     <fileset id="item.file" dir="${work.dir}/system" includes="**/*" />
+	<pathconvert refid="item.file" property="file.list.aroma" pathsep="&#10;" dirsep="/">
+	       <map from="${work.dir}/system/" to=''/>
+    </pathconvert>
     <copy todir="${work.dir}/system/addon.d">
         <fileset dir="${app.dir}/extras">
 			<include name="80-gapps.sh"/>
@@ -129,7 +119,9 @@
 		
 		def sdf = new SimpleDateFormat("MMMM, dd yyyy")
         new File("work/values.prop").withWriter { w ->
-		w.println "android_ver=5.0.X"
+		w.println "android_ver=5.0.x"
+		w.println "multi_dpi=check.checked"
+		w.println "multi_dpi_desc=Status: stable. Default: checked"
         w.println "build_date=${sdf.format(new Date())}"
 		
 		def youtube_size = new File('structure/system/app/YouTube').directorySize()
@@ -138,7 +130,7 @@
 		def hangouts_size = new File('structure/system/app/Hangouts').directorySize()
 		def hangoutsdialer_size =  new File('structure/system/app/HangoutsDialer').directorySize()
 		def talkback_size = new File('structure/system/priv-app/talkback').directorySize()
-		def facelock_size = new File('structure/optional').directorySize()
+		def facelock_size = new File('structure/optional').directorySize() + new File('structure/system/vendor').directorySize() + new File('structure/system/app/FaceLock').directorySize()
 		def messenger_size = new File('structure/system/app/Messenger').directorySize()
 		def nw_size = new File('structure/system/app/GenieWidget').directorySize()
 		def now_size = new File('structure/system/app/GoogleHome').directorySize()
@@ -208,7 +200,7 @@
   <target name="ZipAndSigning">
      <zip destfile="${build.dir}/unsigned.zip" basedir="${work.dir}"></zip>
      <echo message="Signing gapps"/>
-     <java dir="${build.dir}" fork="true" failonerror="true" maxmemory="1536m" jar="${sign.jar}">
+     <java dir="${build.dir}" fork="true" failonerror="true" maxmemory="1700m" jar="${sign.jar}">
        <arg value="-w"/>
        <arg value="${sign.pem}"/>
        <arg value="${sign.pk8}"/>

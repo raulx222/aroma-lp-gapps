@@ -10,7 +10,7 @@ done
 
 case "$1" in
 	updater-script)
-	[[ -d /system/app/Browser || -d /system/app/Chrome ]] && echo "browser=1" >> /tmp/protection.prop || echo "browser=0" >> /tmp/protection.prop
+	[[ -d /system/app/Browser || -d /system/app/Chrome ]] && echo "browser=1" > /tmp/protection.prop || echo "browser=0" > /tmp/protection.prop
 	[[ -d /system/app/Email || -d /system/app/Gmail2 ]] && echo "email=1" >> /tmp/protection.prop || echo "email=0" >> /tmp/protection.prop
 	[[ -d /system/priv-app/Mms || -d /system/app/Messenger ]] && echo "mms=1" >> /tmp/protection.prop || echo "mms=0" >> /tmp/protection.prop
 	[[ -d /system/app/PicoTts || -d /system/app/GoogleTTS ]] && echo "tts=1" >> /tmp/protection.prop || echo "tts=0" >> /tmp/protection.prop

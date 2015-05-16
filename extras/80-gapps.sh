@@ -6,6 +6,15 @@
 
 list_files() {
 cat <<EOF
+addon.d/80-gapps.sh
+addon.d/81-remstock.sh
+etc/permissions/com.google.android.camera2.xml
+framework/com.google.android.camera2.jar
+lib/libgcam.so
+lib/libgcam_swig_jni.so
+lib/libjni_eglfence.so
+lib/liblightcycle.so
+lib/libnativehelper_compat.so
 @file.list@
 EOF
 }
@@ -17,9 +26,13 @@ case "$1" in
     done
   ;;
   remove)
-    list_files | while read FILE DUMMY; do
-      delete_file $S/$FILE
-    done
+    for i in `list_files`; do
+      rm -rf /system/$i
+    done;
+
+	for i in /system/app /system/priv-app /system/vendor/pittpatt /system/usr/srec; do
+        find $i -type d | xargs rmdir -p --ignore-fail-on-non-empty;
+   done
   ;;
   restore)
     list_files | while read FILE REPLACEMENT; do
