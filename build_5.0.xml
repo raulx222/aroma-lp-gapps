@@ -83,6 +83,11 @@
                 <replaceregex pattern="@min.version@" replace="${5.0_PRODUCT_VERSION_MAJOR}" flags="i"/>
             </filterchain>
     </copy>
+	<copy file="${app.dir}/extras/tools.sh" todir="${work.dir}">
+            <filterchain>
+                <replaceregex pattern="@package@" replace="${5.0_PRODUCT_VERSION_MAJOR}" flags="gi" />
+            </filterchain>
+    </copy>
 	<antcall target="values" />
 
     <!-- generate backup script -->
