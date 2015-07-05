@@ -1,3 +1,3 @@
-# aroma-lp-gapps
+# AROMA LP-GAPPS
 
-This project is disscontinued!
+This project is discontinued!
